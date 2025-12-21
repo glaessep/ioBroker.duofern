@@ -10,7 +10,7 @@ import * as utils from '@iobroker/adapter-core';
 import { DuoFernStick } from './duofern/stick';
 import { parseStatus } from './duofern/parser';
 import { buildCommand, buildRemotePairFrames, buildStatusRequest, buildBroadcastStatusRequest, Commands } from './duofern/protocol';
-import { getStateDefinitions } from './duofern/capabilities';
+import { getDeviceStateDefinitions } from './duofern/capabilities';
 
 /**
  * Configuration interface for the DuoFern adapter.
@@ -355,10 +355,10 @@ export class DuoFernAdapter extends utils.Adapter {
             native: {},
         });
 
-        // Get capability definitions for this device
-        const capabilities = getStateDefinitions();
+        // Get device-specific capability definitions
+        const capabilities = getDeviceStateDefinitions(code);
 
-        // Create all state objects based on capabilities
+        // Create all state objects based on device-specific capabilities
         for (const [key, def] of Object.entries(capabilities)) {
             await this.setObjectNotExistsAsync(`${code}.${key}`, {
                 type: 'state',

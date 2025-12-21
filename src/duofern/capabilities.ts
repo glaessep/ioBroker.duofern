@@ -86,6 +86,58 @@ const COMMAND_NAMES: Record<string, string> = {
 };
 
 /**
+ * Device type categories based on first two hex digits of device code.
+ * Determines which capabilities are available for each device type.
+ */
+const DEVICE_TYPE_CATEGORIES: Record<string, 'blinds' | 'actuator' | 'sensor' | 'thermostat' | 'remote' | 'unknown'> = {
+    // Roller shutters and blinds
+    '40': 'blinds', // RolloTron Standard
+    '41': 'blinds', // RolloTron Comfort Slave
+    '42': 'blinds', // Rohrmotor-Aktor
+    '47': 'blinds', // Rohrmotor Steuerung
+    '49': 'blinds', // Rohrmotor
+    '4C': 'blinds', // Troll Basis
+    '4E': 'blinds', // SX5
+    '61': 'blinds', // RolloTron Comfort Master
+    '62': 'blinds', // Unspecified device type
+    '70': 'blinds', // Troll Comfort DuoFern
+    '71': 'blinds', // Troll Comfort DuoFern Light
+
+    // Actuators and switches
+    '43': 'actuator', // Universalaktor
+    '46': 'actuator', // Steckdosenaktor
+    '48': 'actuator', // Dimmaktor
+    '4A': 'actuator', // Dimmer
+    '4B': 'actuator', // Connect-Aktor
+
+    // Sensors
+    '65': 'sensor', // Bewegungsmelder (motion sensor)
+    '69': 'sensor', // Umweltsensor (environmental sensor)
+    'A5': 'sensor', // Sonnensensor
+    'A9': 'sensor', // Sonnen-/Windsensor
+    'AA': 'sensor', // Markisenwaechter
+    'AB': 'sensor', // Rauchmelder (smoke detector)
+    'AC': 'sensor', // Fenster-Tuer-Kontakt (door/window contact)
+    'AF': 'sensor', // Sonnensensor
+
+    // Thermostats
+    '73': 'thermostat', // Raumthermostat
+    'E1': 'thermostat', // Heizkoerperantrieb
+
+    // Remotes and controllers (no state creation needed)
+    '74': 'remote', // Wandtaster 6fach
+    'A0': 'remote', // Handsender 6G48
+    'A1': 'remote', // Handsender 1G48
+    'A2': 'remote', // Handsender 6G1
+    'A3': 'remote', // Handsender 1G1
+    'A4': 'remote', // Wandtaster
+    'A7': 'remote', // Funksender UP
+    'A8': 'remote', // HomeTimer
+    'AD': 'remote', // Wandtaster 6fach Bat
+    'E0': 'remote', // Handzentrale
+};
+
+/**
  * Mapping of status field names to their display labels and metadata.
  * Derived from parser.ts statusIds but organized for adapter consumption.
  */
@@ -359,24 +411,80 @@ export function getStateDefinitions(): Record<string, StateDefinition> {
 }
 
 /**
- * Get device-specific state definitions (future enhancement).
+ * Get device-specific state definitions based on device type.
  * 
- * This function is a placeholder for future device-type-specific capability filtering.
- * Currently returns all state definitions regardless of device type.
+ * Filters the complete state definitions to only include capabilities that are
+ * relevant for the specific device type. This prevents creating irrelevant states
+ * like 'position' for sensors or 'up/down' for thermostats.
  * 
- * Future implementation will:
- * - Use the device code's first two digits to identify device type
- * - Filter capabilities based on device capabilities (e.g., blinds vs. thermostats)
- * - Align with statusGroups formats in parser
- * 
- * @param {string} _deviceCode - The 6-digit hex device code (currently unused)
- * @returns {Record<string, StateDefinition>} State definitions for the device
+ * @param {string} deviceCode - The 6-digit hex device code
+ * @returns {Record<string, StateDefinition>} Filtered state definitions for the device type
  */
-export function getDeviceStateDefinitions(_deviceCode: string): Record<string, StateDefinition> {
-    // Future: Implement device-type-specific filtering
-    // const deviceType = deviceCode.substring(0, 2);
-    // const capabilities = filterByDeviceType(deviceType);
-    // return capabilities;
+export function getDeviceStateDefinitions(deviceCode: string): Record<string, StateDefinition> {
+    const deviceTypeCode = deviceCode.substring(0, 2).toUpperCase();
+    const category = DEVICE_TYPE_CATEGORIES[deviceTypeCode] || 'unknown';
 
-    return getStateDefinitions();
+    const allCapabilities = getStateDefinitions();
+    const filtered: Record<string, StateDefinition> = {};
+
+    // Common capabilities for all devices
+    const commonStates = ['getStatus', 'remotePair'];
+
+    // Define which capabilities belong to which device category
+    const categoryCapabilities: Record<string, string[]> = {
+        'blinds': [
+            // Basic movement
+            'up', 'down', 'stop', 'toggle', 'position',
+            // Status
+            'moving', 'sunAutomatic', 'timeAutomatic', 'duskAutomatic', 'dawnAutomatic',
+            'manualMode', 'runningTime', 'sunPosition', 'ventilatingPosition', 'ventilatingMode',
+            'sunMode', 'rainAutomatic', 'windAutomatic', 'reversal', 'rainDirection', 'windDirection',
+            // Advanced blind features
+            'slatRunTime', 'tiltAfterMoveLevel', 'tiltInVentPos', 'defaultSlatPos',
+            'tiltAfterStopDown', 'motorDeadTime', 'tiltInSunPos', 'slatPosition', 'blindsMode',
+            'windMode', 'rainMode',
+            // Gate/door specific (for some blind devices)
+            'obstacle', 'block', 'lightCurtain', 'automaticClosing', 'openSpeed',
+            '2000cycleAlarm', 'wicketDoor', 'backJump', '10minuteAlarm', 'light'
+        ],
+        'actuator': [
+            // Basic control
+            'up', 'down', 'stop', 'toggle', 'position',
+            // Status (limited compared to blinds)
+            'moving', 'manualMode'
+        ],
+        'sensor': [
+            // Sensors typically only report status, no control
+            // Most sensor values come through different channels, not the standard blind protocol
+        ],
+        'thermostat': [
+            // Thermostats have different command structure
+            // Typically only basic status reporting through standard protocol
+        ],
+        'remote': [
+            // Remotes don't have states, they only send commands
+            // No state objects should be created
+        ],
+        'unknown': [
+            // For unknown devices, provide basic capabilities
+            'up', 'down', 'stop', 'toggle', 'position', 'moving'
+        ]
+    };
+
+    // Add common states
+    for (const state of commonStates) {
+        if (allCapabilities[state]) {
+            filtered[state] = allCapabilities[state];
+        }
+    }
+
+    // Add category-specific states
+    const allowedStates = categoryCapabilities[category] || [];
+    for (const state of allowedStates) {
+        if (allCapabilities[state]) {
+            filtered[state] = allCapabilities[state];
+        }
+    }
+
+    return filtered;
 }

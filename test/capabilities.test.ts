@@ -196,12 +196,23 @@ describe('capabilities', () => {
             assert.strictEqual(typeof definitions, 'object');
         });
 
-        it('should currently return all definitions (future: device-specific)', () => {
+        it('should return device-specific filtered definitions', () => {
             const allDefs = getStateDefinitions();
-            const deviceDefs = getDeviceStateDefinitions('401234');
+            const blindsDefs = getDeviceStateDefinitions('401234'); // RolloTron Standard
+            const sensorDefs = getDeviceStateDefinitions('691234'); // Umweltsensor
 
-            // Currently should be the same
-            assert.strictEqual(Object.keys(deviceDefs).length, Object.keys(allDefs).length);
+            // Blinds should have fewer states than all definitions
+            assert.ok(Object.keys(blindsDefs).length <= Object.keys(allDefs).length);
+
+            // Blinds should have movement capabilities
+            assert.ok(blindsDefs.up);
+            assert.ok(blindsDefs.down);
+            assert.ok(blindsDefs.position);
+
+            // Sensors should have minimal states (mainly getStatus, remotePair)
+            assert.ok(Object.keys(sensorDefs).length < Object.keys(blindsDefs).length);
+            assert.ok(sensorDefs.getStatus);
+            assert.ok(sensorDefs.remotePair);
         });
 
         it('should work with different device type codes', () => {
