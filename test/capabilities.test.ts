@@ -30,6 +30,28 @@ describe('capabilities', () => {
             assert.ok(definitions.remotePair);
         });
 
+        it('should include on/off command capabilities', () => {
+            const definitions = getStateDefinitions();
+
+            // On/Off commands for switches and dimmers
+            assert.ok(definitions.on, 'on command should exist');
+            assert.ok(definitions.off, 'off command should exist');
+
+            // Verify on command properties
+            assert.strictEqual(definitions.on.name, 'On');
+            assert.strictEqual(definitions.on.type, 'boolean');
+            assert.strictEqual(definitions.on.role, 'button');
+            assert.strictEqual(definitions.on.readable, false);
+            assert.strictEqual(definitions.on.writable, true);
+
+            // Verify off command properties
+            assert.strictEqual(definitions.off.name, 'Off');
+            assert.strictEqual(definitions.off.type, 'boolean');
+            assert.strictEqual(definitions.off.role, 'button');
+            assert.strictEqual(definitions.off.readable, false);
+            assert.strictEqual(definitions.off.writable, true);
+        });
+
         it('should include status capabilities', () => {
             const definitions = getStateDefinitions();
 
@@ -39,6 +61,17 @@ describe('capabilities', () => {
             assert.ok(definitions.sunAutomatic);
             assert.ok(definitions.timeAutomatic);
             assert.ok(definitions.sunMode);
+        });
+
+        it('should handle status fields without mapping (defaults to number type)', () => {
+            const definitions = getStateDefinitions();
+
+            // runningTime has no entry in getStatusFieldMapping, should default to number
+            assert.ok(definitions.runningTime, 'runningTime should exist');
+            assert.strictEqual(definitions.runningTime.type, 'number', 'runningTime should default to number type');
+            assert.strictEqual(definitions.runningTime.role, 'indicator', 'runningTime should be indicator (not writable)');
+            assert.strictEqual(definitions.runningTime.readable, true);
+            assert.strictEqual(definitions.runningTime.writable, false);
         });
 
         it('should define command buttons correctly', () => {
@@ -309,6 +342,34 @@ describe('capabilities', () => {
             assert.strictEqual(typeof blinds, 'object');
             assert.strictEqual(typeof thermostat, 'object');
             assert.strictEqual(typeof sensor, 'object');
+        });
+
+        it('should include reversal field for blinds devices', () => {
+            const blinds = getDeviceStateDefinitions('401234'); // RolloTron Standard (blinds)
+
+            // Reversal should be included in blinds capabilities
+            assert.ok(blinds.reversal, 'blinds should have reversal field');
+            assert.strictEqual(blinds.reversal.type, 'boolean');
+            assert.strictEqual(blinds.reversal.readable, true);
+            assert.strictEqual(blinds.reversal.writable, false, 'reversal should be read-only');
+        });
+
+        it('should handle unknown device codes with fallback capabilities', () => {
+            const unknown = getDeviceStateDefinitions('001234'); // Unknown device type code
+
+            // Unknown devices should get basic capabilities
+            assert.ok(unknown.getStatus, 'unknown devices should have getStatus');
+            assert.ok(unknown.remotePair, 'unknown devices should have remotePair');
+            assert.ok(unknown.up, 'unknown devices should have up');
+            assert.ok(unknown.down, 'unknown devices should have down');
+            assert.ok(unknown.stop, 'unknown devices should have stop');
+            assert.ok(unknown.toggle, 'unknown devices should have toggle');
+            assert.ok(unknown.position, 'unknown devices should have position');
+            assert.ok(unknown.moving, 'unknown devices should have moving');
+
+            // Should not have device-specific capabilities like slat control
+            assert.ok(!unknown.slatPosition, 'unknown devices should not have slatPosition');
+            assert.ok(!unknown.lightCurtain, 'unknown devices should not have lightCurtain');
         });
     });
 

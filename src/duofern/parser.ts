@@ -218,23 +218,26 @@ export function parseStatus(frame: string): Record<string, string | number | boo
             // Map
             if (def.map && statusMapping[def.map]) {
                 const map = statusMapping[def.map];
-                // Check for scale/hex maps
+                /* istanbul ignore next -- scale mappings are not implemented yet */
                 if (def.map.startsWith("scale")) {
-                    // Not implemented for blinds, mostly for sensors
-                } else if (def.map === "hex") {
-                    // Not implemented
-                } else {
-                    // Array map
-                    if (value < map.length) {
-                        // For onOff mapping, return boolean value
-                        if (def.map === 'onOff') {
-                            result[def.name] = value === 1; // true for 1, false for 0
-                        } else {
-                            result[def.name] = map[value];
-                        }
+                    continue;
+                }
+
+                /* istanbul ignore next -- hex mappings are not implemented yet */
+                if (def.map === "hex") {
+                    continue;
+                }
+
+                // Array map
+                if (value < map.length) {
+                    // For onOff mapping, return boolean value
+                    if (def.map === 'onOff') {
+                        result[def.name] = value === 1; // true for 1, false for 0
                     } else {
-                        result[def.name] = value;
+                        result[def.name] = map[value];
                     }
+                } else {
+                    result[def.name] = value;
                 }
             } else {
                 result[def.name] = value;
