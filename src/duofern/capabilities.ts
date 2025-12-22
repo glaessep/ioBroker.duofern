@@ -312,7 +312,7 @@ function inferTypeFromMapping(mapType: string | undefined): 'boolean' | 'string'
 
     // Boolean mappings
     if (mapType === 'onOff') {
-        return 'string'; // Returns "on" or "off"
+        return 'boolean'; // Returns true or false
     }
 
     // String/enum mappings
@@ -400,6 +400,7 @@ function getStatusFieldMapping(fieldName: string): string | undefined {
         ventilatingMode: 'onOff',
         rainAutomatic: 'onOff',
         windAutomatic: 'onOff',
+        reversal: 'onOff',
         rainDirection: 'upDown',
         windDirection: 'upDown',
         tiltAfterMoveLevel: 'onOff',

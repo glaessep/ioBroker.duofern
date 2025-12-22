@@ -86,12 +86,12 @@ describe('capabilities', () => {
             const definitions = getStateDefinitions();
 
             const sunAutomatic = definitions.sunAutomatic;
-            assert.strictEqual(sunAutomatic.type, 'string');
+            assert.strictEqual(sunAutomatic.type, 'boolean');
             assert.strictEqual(sunAutomatic.readable, true);
             assert.strictEqual(sunAutomatic.writable, true);
 
             const timeAutomatic = definitions.timeAutomatic;
-            assert.strictEqual(timeAutomatic.type, 'string');
+            assert.strictEqual(timeAutomatic.type, 'boolean');
             assert.strictEqual(timeAutomatic.readable, true);
             assert.strictEqual(timeAutomatic.writable, true);
         });
@@ -161,8 +161,8 @@ describe('capabilities', () => {
 
             for (const state of booleanStates) {
                 if (definitions[state]) {
-                    // Boolean-like states are mapped to "on"/"off" strings
-                    assert.strictEqual(definitions[state].type, 'string', `${state} should be string type`);
+                    // Boolean-like states are mapped to true/false
+                    assert.strictEqual(definitions[state].type, 'boolean', `${state} should be boolean type`);
                 }
             }
         });
@@ -445,11 +445,11 @@ describe('capabilities', () => {
                 }
             }
 
-            // All automatic fields should be strings (mapped to on/off)
+            // All automatic fields should be booleans (mapped to true/false)
             const automaticFields = ['sunAutomatic', 'timeAutomatic', 'dawnAutomatic'];
             for (const field of automaticFields) {
                 if (definitions[field]) {
-                    assert.strictEqual(definitions[field].type, 'string', `${field} should be string type`);
+                    assert.strictEqual(definitions[field].type, 'boolean', `${field} should be boolean type`);
                 }
             }
         });

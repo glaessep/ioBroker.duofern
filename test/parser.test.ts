@@ -111,9 +111,9 @@ describe('DuoFern Parser', () => {
             const frame = '0FFF0F21' + 'FF'.repeat(9);
             const result = parseStatus(frame);
 
-            // Verify that mapped fields are present and are strings (not numbers)
+            // Verify that mapped fields are present and are booleans
             const hasBoolean = Object.entries(result).some(([key, val]) =>
-                typeof val === 'string' && (val === 'on' || val === 'off')
+                typeof val === 'boolean'
             );
             assert.ok(hasBoolean, 'Should have at least one boolean status field');
         });
