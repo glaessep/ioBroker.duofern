@@ -97,6 +97,16 @@ export class DuoFernStick extends EventEmitter {
             }
         });
     }
+
+    /**
+     * Returns whether the stick has completed its initialization sequence.
+     * 
+     * @returns {boolean} True if stick is initialized and ready
+     */
+    public get isInitialized(): boolean {
+        return this.initialized;
+    }
+
     /**
      * Called when the serial port is opened.
      * 
