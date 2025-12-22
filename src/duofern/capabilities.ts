@@ -89,26 +89,30 @@ const COMMAND_NAMES: Record<string, string> = {
  * Device type categories based on first two hex digits of device code.
  * Determines which capabilities are available for each device type.
  */
-const DEVICE_TYPE_CATEGORIES: Record<string, 'blinds' | 'actuator' | 'sensor' | 'thermostat' | 'remote' | 'unknown'> = {
+const DEVICE_TYPE_CATEGORIES: Record<string, 'blinds' | 'gate' | 'actuator' | 'dimmer' | 'sensor' | 'thermostat' | 'remote' | 'unknown'> = {
     // Roller shutters and blinds
     '40': 'blinds', // RolloTron Standard
     '41': 'blinds', // RolloTron Comfort Slave
     '42': 'blinds', // Rohrmotor-Aktor
     '47': 'blinds', // Rohrmotor Steuerung
     '49': 'blinds', // Rohrmotor
+    '4B': 'blinds', // Connect-Aktor (has blinds mode support)
     '4C': 'blinds', // Troll Basis
-    '4E': 'blinds', // SX5
     '61': 'blinds', // RolloTron Comfort Master
     '62': 'blinds', // Unspecified device type
     '70': 'blinds', // Troll Comfort DuoFern
-    '71': 'blinds', // Troll Comfort DuoFern Light
+
+    // Gates and garage doors
+    '4E': 'gate', // SX5 Gate Controller
 
     // Actuators and switches
     '43': 'actuator', // Universalaktor
     '46': 'actuator', // Steckdosenaktor
-    '48': 'actuator', // Dimmaktor
-    '4A': 'actuator', // Dimmer
-    '4B': 'actuator', // Connect-Aktor
+    '71': 'actuator', // Troll Comfort DuoFern (Light/Switch mode)
+
+    // Dimmers
+    '48': 'dimmer', // Dimmaktor
+    '4A': 'dimmer', // Dimmer
 
     // Sensors
     '65': 'sensor', // Bewegungsmelder (motion sensor)
@@ -124,7 +128,7 @@ const DEVICE_TYPE_CATEGORIES: Record<string, 'blinds' | 'actuator' | 'sensor' | 
     '73': 'thermostat', // Raumthermostat
     'E1': 'thermostat', // Heizkoerperantrieb
 
-    // Remotes and controllers (no state creation needed)
+    // Remotes and controllers (minimal states: getStatus for battery, remotePair for pairing)
     '74': 'remote', // Wandtaster 6fach
     'A0': 'remote', // Handsender 6G48
     'A1': 'remote', // Handsender 1G48
@@ -238,6 +242,35 @@ function getCommandCapabilities(): Record<string, StateDefinition> {
         unit: '%',
         min: 0,
         max: 100,
+    };
+
+    // Level for dimmers (brightness control, similar to position)
+    capabilities.level = {
+        name: 'Brightness Level',
+        type: 'number',
+        role: 'level',
+        readable: true,
+        writable: true,
+        unit: '%',
+        min: 0,
+        max: 100,
+    };
+
+    // On/Off commands for switches and dimmers
+    capabilities.on = {
+        name: 'On',
+        type: 'boolean',
+        role: 'button',
+        readable: false,
+        writable: true,
+    };
+
+    capabilities.off = {
+        name: 'Off',
+        type: 'boolean',
+        role: 'button',
+        readable: false,
+        writable: true,
     };
 
     // Status request button
@@ -439,19 +472,42 @@ export function getDeviceStateDefinitions(deviceCode: string): Record<string, St
             'moving', 'sunAutomatic', 'timeAutomatic', 'duskAutomatic', 'dawnAutomatic',
             'manualMode', 'runningTime', 'sunPosition', 'ventilatingPosition', 'ventilatingMode',
             'sunMode', 'rainAutomatic', 'windAutomatic', 'reversal', 'rainDirection', 'windDirection',
-            // Advanced blind features
+            // Advanced blind features (venetian blinds)
             'slatRunTime', 'tiltAfterMoveLevel', 'tiltInVentPos', 'defaultSlatPos',
             'tiltAfterStopDown', 'motorDeadTime', 'tiltInSunPos', 'slatPosition', 'blindsMode',
-            'windMode', 'rainMode',
-            // Gate/door specific (for some blind devices)
+            'windMode', 'rainMode'
+        ],
+        'gate': [
+            // Basic movement (gates/garage doors)
+            'up', 'down', 'stop', 'position',
+            // Status
+            'moving', 'manualMode', 'timeAutomatic', 'ventilatingMode', 'ventilatingPosition',
+            // Gate-specific features (SX5 only)
             'obstacle', 'block', 'lightCurtain', 'automaticClosing', 'openSpeed',
             '2000cycleAlarm', 'wicketDoor', 'backJump', '10minuteAlarm', 'light'
         ],
         'actuator': [
-            // Basic control
-            'up', 'down', 'stop', 'toggle', 'position',
-            // Status (limited compared to blinds)
-            'moving', 'manualMode'
+            // Switch control (on/off only, no position)
+            'on', 'off',
+            // Automation modes
+            'dawnAutomatic', 'duskAutomatic', 'manualMode',
+            'sunAutomatic', 'timeAutomatic', 'sunMode',
+            'modeChange', 'stairwellFunction', 'stairwellTime',
+            // Triggers
+            'dusk', 'dawn'
+        ],
+        'dimmer': [
+            // Dimmer control (brightness level)
+            'level', 'on', 'off',
+            // Automation modes (same as actuator)
+            'dawnAutomatic', 'duskAutomatic', 'manualMode',
+            'sunAutomatic', 'timeAutomatic', 'sunMode',
+            'modeChange', 'stairwellFunction', 'stairwellTime',
+            // Dimmer-specific
+            'runningTime', 'intermediateMode', 'intermediateValue',
+            'saveIntermediateOnStop',
+            // Triggers
+            'dusk', 'dawn'
         ],
         'sensor': [
             // Sensors typically only report status, no control
@@ -462,8 +518,10 @@ export function getDeviceStateDefinitions(deviceCode: string): Record<string, St
             // Typically only basic status reporting through standard protocol
         ],
         'remote': [
-            // Remotes don't have states, they only send commands
-            // No state objects should be created
+            // Remotes get minimal states for status reporting and pairing
+            // getStatus: allows querying battery status
+            // remotePair: allows pairing other devices
+            // No control states (they send commands, don't receive them)
         ],
         'unknown': [
             // For unknown devices, provide basic capabilities

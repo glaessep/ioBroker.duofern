@@ -198,21 +198,59 @@ describe('capabilities', () => {
 
         it('should return device-specific filtered definitions', () => {
             const allDefs = getStateDefinitions();
-            const blindsDefs = getDeviceStateDefinitions('401234'); // RolloTron Standard
-            const sensorDefs = getDeviceStateDefinitions('691234'); // Umweltsensor
-
-            // Blinds should have fewer states than all definitions
-            assert.ok(Object.keys(blindsDefs).length <= Object.keys(allDefs).length);
+            const blindsDefs = getDeviceStateDefinitions('401234'); // RolloTron Standard (blinds)
+            const gateDefs = getDeviceStateDefinitions('4E1234'); // SX5 (gate)
+            const tubularDefs = getDeviceStateDefinitions('491234'); // Rohrmotor (tubular motor - blinds)
+            const sensorDefs = getDeviceStateDefinitions('691234'); // Umweltsensor (sensor)
+            const dimmerDefs = getDeviceStateDefinitions('481234'); // Dimmaktor (dimmer)
+            const actuatorDefs = getDeviceStateDefinitions('461234'); // Steckdosenaktor (actuator)
+            const remoteDefs = getDeviceStateDefinitions('A01234'); // Handsender (remote)
 
             // Blinds should have movement capabilities
-            assert.ok(blindsDefs.up);
-            assert.ok(blindsDefs.down);
-            assert.ok(blindsDefs.position);
+            assert.ok(blindsDefs.up, 'Blinds should have up');
+            assert.ok(blindsDefs.down, 'Blinds should have down');
+            assert.ok(blindsDefs.position, 'Blinds should have position');
 
-            // Sensors should have minimal states (mainly getStatus, remotePair)
-            assert.ok(Object.keys(sensorDefs).length < Object.keys(blindsDefs).length);
-            assert.ok(sensorDefs.getStatus);
-            assert.ok(sensorDefs.remotePair);
+            // Gates should have position but also gate-specific states
+            assert.ok(gateDefs.up, 'Gates should have up');
+            assert.ok(gateDefs.position, 'Gates should have position');
+            assert.ok(gateDefs.obstacle, 'Gates should have obstacle detection');
+            assert.ok(gateDefs.lightCurtain, 'Gates should have lightCurtain');
+            assert.ok(gateDefs['10minuteAlarm'], 'Gates should have 10minuteAlarm');
+
+            // Tubular motors (49) should NOT have gate-specific states
+            assert.ok(tubularDefs.up, 'Tubular motors should have up');
+            assert.ok(tubularDefs.position, 'Tubular motors should have position');
+            assert.ok(!tubularDefs.obstacle, 'Tubular motors should NOT have obstacle');
+            assert.ok(!tubularDefs.lightCurtain, 'Tubular motors should NOT have lightCurtain');
+            assert.ok(!tubularDefs['10minuteAlarm'], 'Tubular motors should NOT have 10minuteAlarm');
+
+            // Dimmers should have level, not position
+            assert.ok(dimmerDefs.level, 'Dimmers should have level');
+            assert.ok(dimmerDefs.on, 'Dimmers should have on');
+            assert.ok(dimmerDefs.off, 'Dimmers should have off');
+            assert.ok(!dimmerDefs.position, 'Dimmers should NOT have position');
+            assert.ok(!dimmerDefs.up, 'Dimmers should NOT have up');
+            assert.ok(!dimmerDefs.down, 'Dimmers should NOT have down');
+
+            // Actuators should have on/off, not position
+            assert.ok(actuatorDefs.on, 'Actuators should have on');
+            assert.ok(actuatorDefs.off, 'Actuators should have off');
+            assert.ok(!actuatorDefs.position, 'Actuators should NOT have position');
+            assert.ok(!actuatorDefs.level, 'Actuators should NOT have level');
+            assert.ok(!actuatorDefs.up, 'Actuators should NOT have up');
+
+            // Sensors should have minimal states
+            assert.ok(Object.keys(sensorDefs).length < Object.keys(blindsDefs).length, 'Sensors should have fewer states than blinds');
+            assert.ok(sensorDefs.getStatus, 'Sensors should have getStatus');
+            assert.ok(sensorDefs.remotePair, 'Sensors should have remotePair');
+            assert.ok(!sensorDefs.position, 'Sensors should NOT have position');
+
+            // Remotes should have minimal states for status/pairing only
+            assert.ok(remoteDefs.getStatus, 'Remotes should have getStatus for battery status');
+            assert.ok(remoteDefs.remotePair, 'Remotes should have remotePair');
+            assert.ok(!remoteDefs.position, 'Remotes should NOT have position');
+            assert.ok(!remoteDefs.up, 'Remotes should NOT have up');
         });
 
         it('should work with different device type codes', () => {
