@@ -390,11 +390,22 @@ export class DuoFernStick extends EventEmitter {
      */
     public async reopen(updatedDevices?: string[]): Promise<void> {
         this.emit('log', 'info', 'Reopening connection to DuoFern stick...');
+        const originalDevices = [...this.knownDevices]; // Save original state
+        const discardedCommands = [...this.queue];
+
         try {
             // Update device list if provided
             if (updatedDevices) {
                 this.knownDevices = updatedDevices;
                 this.emit('log', 'debug', `Updated device list: ${updatedDevices.join(', ')}`);
+            }
+
+            // Log discarded commands
+            if (discardedCommands.length > 0) {
+                this.emit('log', 'warn', `Discarding ${discardedCommands.length} queued command(s) during reopen`);
+                discardedCommands.forEach((cmd, idx) => {
+                    this.emit('log', 'debug', `Discarded command ${idx + 1}: ${cmd}`);
+                });
             }
 
             // Close existing connection
@@ -408,6 +419,9 @@ export class DuoFernStick extends EventEmitter {
             await this.open();
             // Note: open() triggers onOpen() which calls startInit()
         } catch (err) {
+            // Restore original device list on failure
+            this.knownDevices = originalDevices;
+            this.emit('log', 'error', `Reopen failed, restored original device list`);
             this.emit('error', new Error(`Reopen failed: ${err}`));
             throw err;
         }

@@ -97,6 +97,8 @@ export class DuoFernAdapter extends utils.Adapter {
     private registrationThrottleTimer: NodeJS.Timeout | null = null;
     private pendingDeviceRegistrations: Set<string> = new Set();
     private readonly REGISTRATION_THROTTLE_MS = 10000; // 10 seconds
+    private registrationRetryCount: number = 0;
+    private readonly MAX_REGISTRATION_RETRIES = 3;
 
     /**
      * Creates an instance of DuoFernAdapter.
@@ -205,6 +207,11 @@ export class DuoFernAdapter extends utils.Adapter {
             }
         }
 
+        // Initialize registeredDevices immediately to prevent race condition
+        // where devices send status before 'initialized' event fires
+        this.registeredDevices.clear();
+        knownDevices.forEach(device => this.registeredDevices.add(device.toUpperCase()));
+
         this.stick = new DuoFernStick(port, code, knownDevices);
 
         this.stick.on('log', (level, msg) => {
@@ -216,9 +223,6 @@ export class DuoFernAdapter extends utils.Adapter {
 
         this.stick.on('initialized', () => {
             this.log.info('DuoFern stick initialized successfully');
-            // Update registered devices list
-            this.registeredDevices.clear();
-            knownDevices.forEach(device => this.registeredDevices.add(device.toUpperCase()));
             this.log.debug(`Stick ready with ${knownDevices.length} known devices: ${knownDevices.join(', ')}`);
             this.updateConnectionStatus();
             this.isReInitializing = false;
@@ -227,6 +231,11 @@ export class DuoFernAdapter extends utils.Adapter {
         this.stick.on('error', (err) => {
             this.log.error(`Stick error: ${err}`);
             this.setState('info.connection', false, true);
+            // Reset re-initialization flag on error to prevent permanent blocking
+            if (this.isReInitializing) {
+                this.log.warn('Resetting re-initialization flag due to error');
+                this.isReInitializing = false;
+            }
         });
 
         this.stick.on('message', (frame) => this.handleMessage(frame));
@@ -368,11 +377,12 @@ export class DuoFernAdapter extends utils.Adapter {
         if (!this.stick) {
             this.log.warn('Cannot register devices - stick not initialized');
             this.pendingDeviceRegistrations.clear();
+            this.registrationRetryCount = 0;
             return;
         }
 
         const devicesToRegister = Array.from(this.pendingDeviceRegistrations);
-        this.log.info(`Processing registration for ${devicesToRegister.length} device(s): ${devicesToRegister.join(', ')}`);
+        this.log.info(`Processing registration for ${devicesToRegister.length} device(s): ${devicesToRegister.join(', ')} (attempt ${this.registrationRetryCount + 1}/${this.MAX_REGISTRATION_RETRIES})`);
 
         try {
             this.isReInitializing = true;
@@ -392,17 +402,30 @@ export class DuoFernAdapter extends utils.Adapter {
 
             this.log.info(`Stick re-initialized successfully with ${devicesToRegister.length} new device(s)`);
             this.updateConnectionStatus();
+            // Reset retry count on success
+            this.registrationRetryCount = 0;
         } catch (err) {
-            this.log.error(`Failed to re-initialize stick: ${err}`);
+            this.log.error(`Failed to re-initialize stick (attempt ${this.registrationRetryCount + 1}/${this.MAX_REGISTRATION_RETRIES}): ${err}`);
             this.isReInitializing = false;
             // Remove failed devices from registered list
             devicesToRegister.forEach(code => this.registeredDevices.delete(code));
-            // Re-add to pending for retry
+
+            // Check retry limit
+            this.registrationRetryCount++;
+            if (this.registrationRetryCount >= this.MAX_REGISTRATION_RETRIES) {
+                this.log.error(`Maximum registration retries (${this.MAX_REGISTRATION_RETRIES}) reached. Giving up on devices: ${devicesToRegister.join(', ')}`);
+                this.pendingDeviceRegistrations.clear();
+                this.registrationRetryCount = 0;
+                return;
+            }
+
+            // Re-add to pending for retry with exponential backoff
             devicesToRegister.forEach(code => this.pendingDeviceRegistrations.add(code));
-            // Retry after delay
+            const backoffDelay = this.REGISTRATION_THROTTLE_MS * Math.pow(2, this.registrationRetryCount - 1);
+            this.log.info(`Retrying in ${backoffDelay / 1000} seconds...`);
             this.registrationThrottleTimer = setTimeout(() => {
                 this.processPendingRegistrations();
-            }, this.REGISTRATION_THROTTLE_MS);
+            }, backoffDelay);
         }
     }
 
