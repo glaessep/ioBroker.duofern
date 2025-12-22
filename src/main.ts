@@ -311,7 +311,8 @@ export class DuoFernAdapter extends utils.Adapter {
             this.log.debug(`Status update for device ${code}`);
 
             // Check if this is a new device that needs to be registered
-            if (!this.registeredDevices.has(code)) {
+            // Skip if already registered OR already pending registration
+            if (!this.registeredDevices.has(code) && !this.pendingDeviceRegistrations.has(code)) {
                 this.log.info(`New device detected: ${code} - scheduling registration`);
                 this.scheduleDeviceRegistration(code);
             }
@@ -336,17 +337,18 @@ export class DuoFernAdapter extends utils.Adapter {
      * @param {string} deviceCode - The 6-digit hex device code to register
      */
     private scheduleDeviceRegistration(deviceCode: string): void {
-        // Clear existing timer if present (restart on each new device)
-        if (this.registrationThrottleTimer) {
-            clearTimeout(this.registrationThrottleTimer);
-            this.log.debug('Timer restarted due to new device discovery');
-        }
-
         const normalizedCode = deviceCode.toUpperCase();
         this.pendingDeviceRegistrations.add(normalizedCode);
 
         const deviceCount = this.pendingDeviceRegistrations.size;
-        this.log.info(`Scheduled registration for ${normalizedCode} (${deviceCount} device${deviceCount > 1 ? 's' : ''} pending, timer restarted)`);
+
+        // Clear existing timer if present (restart on each new device)
+        if (this.registrationThrottleTimer) {
+            clearTimeout(this.registrationThrottleTimer);
+            this.log.info(`Scheduled registration for ${normalizedCode} (${deviceCount} device${deviceCount > 1 ? 's' : ''} pending, timer restarted)`);
+        } else {
+            this.log.info(`Scheduled registration for ${normalizedCode} (${deviceCount} device${deviceCount > 1 ? 's' : ''} pending, timer started)`);
+        }
 
         // Set new timer
         this.registrationThrottleTimer = setTimeout(() => {
