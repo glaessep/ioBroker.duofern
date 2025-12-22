@@ -42,8 +42,9 @@ interface StatusIdDef {
  * - "22": Reserved for other device types (not yet implemented)
  * - "23": Extended blind status with slat/tilt control
  * - "23a": Alternate extended blind format
- * - "24": Blind status with wind/rain modes and obstacle detection
- * - "24a": Gate/door status with light curtain, automatic closing, alarms
+ * - "24": Blind status with wind/rain modes (for blinds only, no gate fields)
+ * - "24a": Gate/door status with obstacle/block detection, light curtain, automatic closing, alarms
+ * - "2C": Timer/configuration frames (no standard status data)
  * 
  * @constant {Object.<string, number[]>} statusGroups
  */
@@ -52,8 +53,9 @@ const statusGroups: { [key: string]: number[] } = {
     "22": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     "23": [102, 107, 109, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 140, 141, 50],
     "23a": [102, 107, 109, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 133, 140, 141, 50],
-    "24": [102, 107, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 140, 141, 400, 402, 50],
+    "24": [102, 107, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 140, 141, 50],
     "24a": [102, 107, 115, 123, 124, 400, 402, 404, 405, 406, 407, 408, 409, 410, 411, 50],
+    "2C": [],
     // ... others omitted for now (blinds focus)
 };
 
