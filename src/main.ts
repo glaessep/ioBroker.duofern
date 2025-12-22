@@ -94,6 +94,9 @@ export class DuoFernAdapter extends utils.Adapter {
     private buttonResetTimers: Map<string, NodeJS.Timeout> = new Map();
     private registeredDevices: Set<string> = new Set();
     private isReInitializing: boolean = false;
+    private registrationThrottleTimer: NodeJS.Timeout | null = null;
+    private pendingDeviceRegistrations: Set<string> = new Set();
+    private readonly REGISTRATION_THROTTLE_MS = 10000; // 10 seconds
 
     /**
      * Creates an instance of DuoFernAdapter.
@@ -110,6 +113,21 @@ export class DuoFernAdapter extends utils.Adapter {
         this.on('ready', this.onReady.bind(this));
         this.on('stateChange', this.onStateChange.bind(this));
         this.on('unload', this.onUnload.bind(this));
+    }
+
+    /**
+     * Updates the connection status indicator based on registered devices.
+     * Green (true) when at least one device is registered.
+     * Yellow (false) when stick is initialized but no devices are registered.
+     */
+    private updateConnectionStatus(): void {
+        const hasDevices = this.registeredDevices.size > 0;
+        this.setState('info.connection', hasDevices, true);
+        if (hasDevices) {
+            this.log.debug(`Connection status: GREEN (${this.registeredDevices.size} device(s) registered)`);
+        } else {
+            this.log.debug('Connection status: YELLOW (stick initialized but no devices registered)');
+        }
     }
 
     /**
@@ -202,7 +220,7 @@ export class DuoFernAdapter extends utils.Adapter {
             this.registeredDevices.clear();
             knownDevices.forEach(device => this.registeredDevices.add(device.toUpperCase()));
             this.log.debug(`Stick ready with ${knownDevices.length} known devices: ${knownDevices.join(', ')}`);
-            this.setState('info.connection', true, true);
+            this.updateConnectionStatus();
             this.isReInitializing = false;
         });
 
@@ -285,8 +303,8 @@ export class DuoFernAdapter extends utils.Adapter {
 
             // Check if this is a new device that needs to be registered
             if (!this.registeredDevices.has(code)) {
-                this.log.info(`New device detected: ${code} - registering with stick`);
-                await this.registerNewDevice(code);
+                this.log.info(`New device detected: ${code} - scheduling registration`);
+                this.scheduleDeviceRegistration(code);
             }
 
             const status = parseStatus(frame);
@@ -296,42 +314,95 @@ export class DuoFernAdapter extends utils.Adapter {
     }
 
     /**
-     * Registers a new device with the stick by re-initializing with updated device list.
+     * Schedules device registration with throttling to collect multiple devices.
+     * 
+     * Instead of immediately re-initializing when a new device appears, this method
+     * collects devices over a `this.REGISTRATION_THROTTLE_MS` window. If more devices appear during this time,
+     * the timer is reset. Once the window expires, all pending devices are registered
+     * in a single re-initialization.
+     * 
+     * @private
+     * @param {string} deviceCode - The 6-digit hex device code to register
+     */
+    private scheduleDeviceRegistration(deviceCode: string): void {
+        // Clear existing timer if present
+        if (this.registrationThrottleTimer) {
+            clearTimeout(this.registrationThrottleTimer);
+        }
+
+        const normalizedCode = deviceCode.toUpperCase();
+        this.pendingDeviceRegistrations.add(normalizedCode);
+
+        const deviceCount = this.pendingDeviceRegistrations.size;
+        this.log.info(`Scheduled registration for ${normalizedCode} (${deviceCount} device${deviceCount > 1 ? 's' : ''} pending)`);
+
+        // Set new timer
+        this.registrationThrottleTimer = setTimeout(() => {
+            this.processPendingRegistrations();
+        }, this.REGISTRATION_THROTTLE_MS);
+    }
+
+    /**
+     * Processes all pending device registrations by re-initializing the stick.
      * 
      * This is necessary because the stick needs to know about all devices via SetPairs
      * commands during initialization. Without this, commands are ACKed but not forwarded.
      * 
      * @private
      * @async
-     * @param {string} deviceCode - The 6-digit hex device code to register
      */
-    private async registerNewDevice(deviceCode: string): Promise<void> {
+    private async processPendingRegistrations(): Promise<void> {
+        if (this.pendingDeviceRegistrations.size === 0) {
+            return;
+        }
+
         if (this.isReInitializing) {
-            this.log.debug(`Re-initialization already in progress, skipping for ${deviceCode}`);
+            this.log.warn('Re-initialization already in progress, deferring pending registrations');
+            // Reschedule for later
+            this.registrationThrottleTimer = setTimeout(() => {
+                this.processPendingRegistrations();
+            }, this.REGISTRATION_THROTTLE_MS);
             return;
         }
 
         if (!this.stick) {
-            this.log.warn('Cannot register device - stick not initialized');
+            this.log.warn('Cannot register devices - stick not initialized');
+            this.pendingDeviceRegistrations.clear();
             return;
         }
 
+        const devicesToRegister = Array.from(this.pendingDeviceRegistrations);
+        this.log.info(`Processing registration for ${devicesToRegister.length} device(s): ${devicesToRegister.join(', ')}`);
+
         try {
             this.isReInitializing = true;
-            this.registeredDevices.add(deviceCode.toUpperCase());
 
-            this.log.info(`Re-initializing stick with ${this.registeredDevices.size} devices including new device ${deviceCode}`);
+            // Add all pending devices to registered set
+            devicesToRegister.forEach(code => this.registeredDevices.add(code));
+
+            // Clear pending set
+            this.pendingDeviceRegistrations.clear();
+            this.registrationThrottleTimer = null;
+
+            this.log.info(`Re-initializing stick with ${this.registeredDevices.size} total devices`);
             this.log.debug(`Device list: ${Array.from(this.registeredDevices).join(', ')}`);
 
             // Re-initialize stick with updated device list
             await this.stick.reopen(Array.from(this.registeredDevices));
 
-            this.log.info(`Stick re-initialized successfully with device ${deviceCode}`);
+            this.log.info(`Stick re-initialized successfully with ${devicesToRegister.length} new device(s)`);
+            this.updateConnectionStatus();
         } catch (err) {
-            this.log.error(`Failed to re-initialize stick for device ${deviceCode}: ${err}`);
+            this.log.error(`Failed to re-initialize stick: ${err}`);
             this.isReInitializing = false;
-            // Remove from registered list since re-init failed
-            this.registeredDevices.delete(deviceCode.toUpperCase());
+            // Remove failed devices from registered list
+            devicesToRegister.forEach(code => this.registeredDevices.delete(code));
+            // Re-add to pending for retry
+            devicesToRegister.forEach(code => this.pendingDeviceRegistrations.add(code));
+            // Retry after delay
+            this.registrationThrottleTimer = setTimeout(() => {
+                this.processPendingRegistrations();
+            }, this.REGISTRATION_THROTTLE_MS);
         }
     }
 
@@ -354,8 +425,8 @@ export class DuoFernAdapter extends utils.Adapter {
         if (paired) {
             // Register the newly paired device
             if (!this.registeredDevices.has(code)) {
-                this.log.info(`Newly paired device ${code} - registering with stick`);
-                await this.registerNewDevice(code);
+                this.log.info(`Newly paired device ${code} - scheduling registration`);
+                this.scheduleDeviceRegistration(code);
             }
             await this.updateDeviceStates(code, { paired: true });
         } else {
@@ -773,6 +844,12 @@ export class DuoFernAdapter extends utils.Adapter {
             clearTimeout(timer);
         }
         this.buttonResetTimers.clear();
+
+        // Clear registration throttle timer
+        if (this.registrationThrottleTimer) {
+            clearTimeout(this.registrationThrottleTimer);
+            this.registrationThrottleTimer = null;
+        }
 
         if (this.stick) {
             this.stick.close()
