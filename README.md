@@ -69,12 +69,6 @@ npm run test:coverage
 npm run test:coverage:check
 ```
 
-**Current Coverage:**
-- **Protocol Module**: 100% coverage ✅
-- **Parser Module**: 96.87% line coverage ✅
-
-See [COVERAGE.md](COVERAGE.md) for detailed coverage report.
-
 ### Test Environment
 A standalone CLI is provided to test the library and the stick without ioBroker.
 
