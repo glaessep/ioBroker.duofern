@@ -59,7 +59,7 @@ export class CommandDispatcher {
 
         // Special handling for remote pair (uses multi-frame sequence)
         if (commandName === 'remotePair' && value === true) {
-            const frames = buildRemotePairFrames(deviceCode, stickCode);
+            const frames = buildRemotePairFrames(deviceCode, '01');
             return {
                 success: true,
                 frames,
