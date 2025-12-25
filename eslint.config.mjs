@@ -1,148 +1,35 @@
-import typescriptEslint from '@typescript-eslint/eslint-plugin';
-import tsParser from '@typescript-eslint/parser';
+// ioBroker eslint template configuration file for js and ts files
+// Please note that esm or react based modules need additional modules loaded.
+import config from '@iobroker/eslint-config';
 
 export default [
-    // Base configuration for all files
+    ...config,
     {
+        // specify files to exclude from linting here
         ignores: [
-            'build/**',
-            'coverage/**',
-            'node_modules/**',
-            '.nyc_output/**',
-            '*.d.ts'
-        ]
+            '.dev-server/',
+            '.vscode/',
+            '*.test.js',
+            'test/**/*.js',
+            '*.config.mjs',
+            'build',
+            'dist',
+            'admin/words.js',
+            'admin/admin.d.ts',
+            'admin/blockly.js',
+            '**/adapter-config.d.ts',
+            'widgets/**/*.js'
+        ],
     },
-
-    // Test files configuration - no project checking to keep tests independent
     {
-        files: ['test/**/*.ts'],
-        languageOptions: {
-            parser: tsParser,
-            parserOptions: {
-                ecmaVersion: 2022,
-                sourceType: 'module'
-            },
-            globals: {
-                console: 'readonly',
-                process: 'readonly',
-                Buffer: 'readonly',
-                __dirname: 'readonly',
-                __filename: 'readonly',
-                module: 'readonly',
-                require: 'readonly',
-                exports: 'writable',
-                describe: 'readonly',
-                it: 'readonly',
-                before: 'readonly',
-                after: 'readonly',
-                beforeEach: 'readonly',
-                afterEach: 'readonly'
-            }
-        },
-        plugins: {
-            '@typescript-eslint': typescriptEslint
-        },
+        // you may disable some 'jsdoc' warnings - but using jsdoc is highly recommended
+        // as this improves maintainability. jsdoc warnings will not block build process.
         rules: {
-            '@typescript-eslint/no-unused-vars': [
-                'error',
-                {
-                    'ignoreRestSiblings': true,
-                    'argsIgnorePattern': '^_'
-                }
-            ],
-            '@typescript-eslint/explicit-function-return-type': 'warn',
-            '@typescript-eslint/no-explicit-any': 'warn',
-            '@typescript-eslint/no-non-null-assertion': 'warn',
-            'prefer-const': 'error',
-            'no-var': 'error'
-        }
+            // 'jsdoc/require-jsdoc': 'off',
+            // 'jsdoc/require-param': 'off',
+            // 'jsdoc/require-param-description': 'off',
+            // 'jsdoc/require-returns-description': 'off',
+            // 'jsdoc/require-returns-check': 'off',
+        },
     },
-
-    // TypeScript files configuration
-    {
-        files: ['**/*.ts'],
-        languageOptions: {
-            parser: tsParser,
-            parserOptions: {
-                ecmaVersion: 2022,
-                sourceType: 'module',
-                project: './tsconfig.json'
-            },
-            globals: {
-                console: 'readonly',
-                process: 'readonly',
-                Buffer: 'readonly',
-                __dirname: 'readonly',
-                __filename: 'readonly',
-                module: 'readonly',
-                require: 'readonly',
-                exports: 'writable',
-                describe: 'readonly',
-                it: 'readonly',
-                before: 'readonly',
-                after: 'readonly',
-                beforeEach: 'readonly',
-                afterEach: 'readonly'
-            }
-        },
-        plugins: {
-            '@typescript-eslint': typescriptEslint
-        },
-        rules: {
-            // ioBroker specific rules
-            'no-console': 'error',
-            '@typescript-eslint/no-unused-vars': [
-                'error',
-                {
-                    'ignoreRestSiblings': true,
-                    'argsIgnorePattern': '^_'
-                }
-            ],
-            '@typescript-eslint/explicit-function-return-type': 'warn',
-            '@typescript-eslint/no-explicit-any': 'warn',
-            '@typescript-eslint/no-non-null-assertion': 'warn',
-            'prefer-const': 'error',
-            'no-var': 'error'
-        }
-    },
-
-    // CLI tool configuration - allow console (must come after TS config to override)
-    {
-        files: ['src/cli.ts'],
-        rules: {
-            'no-console': 'off'
-        }
-    },
-
-    // JavaScript files configuration
-    {
-        files: ['**/*.js'],
-        languageOptions: {
-            ecmaVersion: 2022,
-            sourceType: 'module',
-            globals: {
-                console: 'readonly',
-                process: 'readonly',
-                Buffer: 'readonly',
-                __dirname: 'readonly',
-                __filename: 'readonly',
-                module: 'readonly',
-                require: 'readonly',
-                exports: 'writable'
-            }
-        },
-        rules: {
-            'no-console': 'error',
-            'prefer-const': 'error',
-            'no-var': 'error'
-        }
-    },
-
-    // Scripts configuration - allow console
-    {
-        files: ['scripts/**/*.js'],
-        rules: {
-            'no-console': 'off'
-        }
-    }
 ];

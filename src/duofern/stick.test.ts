@@ -7,8 +7,8 @@
 
 import * as assert from 'assert';
 import { EventEmitter } from 'events';
-import { Protocol } from '../src/duofern/protocol';
 import * as Module from 'module';
+import { Protocol } from './protocol';
 
 class MockSerialPort extends EventEmitter {
     public isOpen: boolean = false;
@@ -55,7 +55,7 @@ const originalRequire = (Module.prototype as any).require;
     return originalRequire.apply(this, arguments);
 };
 
-import { DuoFernStick } from '../src/duofern/stick';
+import { DuoFernStick } from './stick';
 
 // Helper to initialize stick with auto-ACK
 async function initializeStick(stickInstance: DuoFernStick, timeout = 300): Promise<void> {
@@ -88,6 +88,10 @@ describe('DuoFern Stick', () => {
     beforeEach(() => {
         stick = new DuoFernStick('/dev/ttyUSB0', '6F1234', []);
         mockPort = (stick as any).port as MockSerialPort;
+        // Add a default error handler to prevent uncaught errors
+        stick.on('error', () => {
+            // Default error handler - tests can override if needed
+        });
     });
 
     afterEach(async () => {

@@ -6,7 +6,7 @@
  */
 
 import * as assert from 'assert';
-import { getStateDefinitions, getDeviceStateDefinitions, getDeviceTypeName } from '../src/duofern/capabilities';
+import { getDeviceStateDefinitions, getDeviceTypeName, getStateDefinitions } from './capabilities';
 
 describe('capabilities', () => {
     describe('getStateDefinitions', () => {

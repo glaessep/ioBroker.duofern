@@ -1,65 +1,81 @@
 {
     "name": "iobroker.duofern",
     "version": "0.6.4",
-    "description": "ioBroker Adapter to connect Rademacher DuoFern devices via DuoFern USB Stick",
-    "type": "commonjs",
-    "author": "Patrick Gläßer",
+    "description": "Connect Rademacher DuoFern devices via DuoFern USB Stick",
+    "author": {
+        "name": "Patrick Gläßer",
+        "email": "p.glaesser@hotmail.de"
+    },
+    "contributors": [
+        {
+            "name": "Patrick Gläßer"
+        }
+    ],
+    "homepage": "https://github.com/glaessep/ioBroker.duofern",
     "license": "MIT",
-    "main": "build/main.js",
-    "files": [
-        "admin/",
-        "build/",
-        "io-package.json",
-        "LICENSE"
+    "keywords": [
+        "rademacher",
+        "duofern"
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/glaessep/iobroker.duofern.git"
+        "url": "https://github.com/glaessep/ioBroker.duofern.git"
     },
-    "bugs": {
-        "url": "https://github.com/glaessep/iobroker.duofern/issues"
-    },
-    "homepage": "https://github.com/glaessep/iobroker.duofern",
-    "scripts": {
-        "build": "tsc",
-        "prepare": "npm run build",
-        "watch": "tsc -w",
-        "test-env": "ts-node src/cli.ts",
-        "test": "mocha --timeout 10000 --exit",
-        "test:coverage": "nyc --reporter=text --reporter=html --reporter=json-summary --report-dir=coverage --temp-dir=.nyc_output npm test",
-        "test:coverage:check": "nyc --reporter=text --reporter=html --reporter=json-summary --report-dir=coverage --temp-dir=.nyc_output --include='src/duofern/**/*.ts' --exclude='**/*.d.ts' --check-coverage --statements=95 --branches=85 --functions=100 npm test",
-        "lint": "eslint src/ --ext .ts",
-        "translate": "translate-adapter",
-        "version": "node scripts/bump-version.js",
-        "deploy": "npm run build && TARBALL=$(npm pack) && IOBROKER_DIR=${IOBROKER_DIR:-/opt/iobroker} && ADAPTER_DIR=${ADAPTER_DIR:-$HOME/iobroker.duofern} && cd \"$IOBROKER_DIR\" && node \"$IOBROKER_DIR/node_modules/.bin/iobroker\" stop duofern && npm i --force \"$ADAPTER_DIR/$TARBALL\" && node \"$IOBROKER_DIR/node_modules/.bin/iobroker\" upload duofern && node \"$IOBROKER_DIR/node_modules/.bin/iobroker\" start duofern",
-        "deploy-fresh": "npm run build && TARBALL=$(npm pack) && IOBROKER_DIR=${IOBROKER_DIR:-/opt/iobroker} && ADAPTER_DIR=${ADAPTER_DIR:-$HOME/iobroker.duofern} && cd \"$IOBROKER_DIR\" && node \"$IOBROKER_DIR/node_modules/.bin/iobroker\" stop duofern && (node \"$IOBROKER_DIR/node_modules/.bin/iobroker\" del duofern || true) && npm i --force \"$ADAPTER_DIR/$TARBALL\" && node \"$IOBROKER_DIR/node_modules/.bin/iobroker\" upload duofern && node \"$IOBROKER_DIR/node_modules/.bin/iobroker\" add duofern 0 && node \"$IOBROKER_DIR/node_modules/.bin/iobroker\" start duofern"
+    "engines": {
+        "node": ">= 20"
     },
     "dependencies": {
-        "@iobroker/adapter-core": "^3.2.3",
+        "@iobroker/adapter-core": "^3.3.2",
         "serialport": "^13.0.0"
     },
     "devDependencies": {
-        "@iobroker/adapter-dev": "^1.3.0",
-        "@iobroker/testing": "^5.0.0",
+        "@alcalzone/release-script": "^5.0.0",
+        "@alcalzone/release-script-plugin-iobroker": "^4.0.0",
+        "@alcalzone/release-script-plugin-license": "^4.0.0",
+        "@alcalzone/release-script-plugin-manual-review": "^4.0.0",
+        "@iobroker/adapter-dev": "^1.5.0",
+        "@iobroker/dev-server": "^0.8.0",
+        "@iobroker/eslint-config": "^2.2.0",
+        "@iobroker/testing": "^5.2.2",
         "@istanbuljs/nyc-config-typescript": "^1.0.2",
-        "@types/chai": "^5.0.0",
-        "@types/chai-as-promised": "^8.0.0",
-        "@types/mocha": "^10.0.0",
-        "@types/node": "^22.10.2",
-        "@types/proxyquire": "^1.3.31",
-        "@types/sinon": "^17.0.0",
-        "@types/sinon-chai": "^4.0.0",
-        "@typescript-eslint/eslint-plugin": "^8.0.0",
-        "@typescript-eslint/parser": "^8.0.0",
-        "chai": "^5.1.0",
-        "chai-as-promised": "^8.0.0",
-        "eslint": "^9.0.0",
-        "mocha": "^10.8.2",
+        "@tsconfig/node20": "^20.1.8",
+        "@types/iobroker": "npm:@iobroker/types@^7.1.0",
+        "@types/node": "^20.19.27",
         "nyc": "^17.1.0",
-        "proxyquire": "^2.1.3",
-        "sinon": "^19.0.2",
-        "sinon-chai": "^4.0.0",
+        "rimraf": "^6.1.2",
+        "source-map-support": "^0.5.21",
         "ts-node": "^10.9.2",
-        "typescript": "^5.7.2"
-    }
+        "typescript": "~5.9.3"
+    },
+    "main": "build/main.js",
+    "files": [
+        "admin{,/!(src)/**}/!(tsconfig|tsconfig.*|.eslintrc).{json,json5}",
+        "admin{,/!(src)/**}/*.{html,css,png,svg,jpg,js}",
+        "build/",
+        "www/",
+        "io-package.json",
+        "LICENSE"
+    ],
+    "scripts": {
+        "prebuild": "rimraf build",
+        "build": "build-adapter ts",
+        "watch": "build-adapter ts --watch",
+        "prebuild:ts": "rimraf build",
+        "build:ts": "build-adapter ts",
+        "watch:ts": "build-adapter ts --watch",
+        "test:ts": "mocha --config test/mocharc.custom.json src/**/*.test.ts",
+        "test:package": "mocha test/package --exit",
+        "test:integration": "mocha test/integration --exit",
+        "test": "npm run test:ts && npm run test:package",
+        "check": "tsc --noEmit",
+        "coverage": "nyc npm run test:ts",
+        "lint": "eslint -c eslint.config.mjs .",
+        "translate": "translate-adapter",
+        "release": "release-script",
+        "dev-server": "dev-server"
+    },
+    "bugs": {
+        "url": "https://github.com/glaessep/ioBroker.duofern/issues"
+    },
+    "readmeFilename": "README.md"
 }

@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { CommandDispatcher } from '../src/duofern/commandDispatcher';
+import { CommandDispatcher } from './commandDispatcher';
 
 describe('CommandDispatcher', () => {
     const testDeviceCode = '401234'; // RolloTron Standard (blinds category)

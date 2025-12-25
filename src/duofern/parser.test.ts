@@ -10,7 +10,7 @@
  */
 
 import * as assert from 'assert';
-import { parseStatus } from '../src/duofern/parser';
+import { parseStatus } from './parser';
 
 describe('DuoFern Parser', () => {
     describe('parseStatus()', () => {
