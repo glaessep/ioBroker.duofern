@@ -156,6 +156,14 @@ Additional command line options for the release script are explained in the
 
 ### **WORK IN PROGRESS**
 
+- (glaessep) Migrated to ioBroker adapter creator v3 structure
+- (glaessep) Improved testability with SerialPort dependency injection
+- (glaessep) Enhanced coverage reporting to include json-summary format
+- (glaessep) Updated documentation and translation files
+- (glaessep) Fixed file references and dependencies
+- (glaessep) Updated .gitignore to include log and commitinfo files
+- (glaessep) Removed redundant keyword from io-package.json
+
 ### 0.6.4 (2024-12-25)
 
 - (glaessep) Added GitHub workflow for automated test and coverage checks
