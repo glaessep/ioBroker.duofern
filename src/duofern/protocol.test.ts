@@ -11,7 +11,7 @@
  */
 
 import * as assert from 'assert';
-import { buildCommand, Commands, Protocol, buildStatusRequest, buildSetDongle, buildSetPairs, buildBroadcastStatusRequest, buildRemotePairFrames, buildRemotePair } from '../src/duofern/protocol';
+import { buildBroadcastStatusRequest, buildCommand, buildRemotePair, buildRemotePairFrames, buildSetDongle, buildSetPairs, buildStatusRequest, Commands, Protocol } from './protocol';
 
 describe('DuoFern Protocol', () => {
     const STICK_CODE = '6F1234';

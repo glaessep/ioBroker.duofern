@@ -4,153 +4,71 @@
         "version": "0.6.4",
         "news": {
             "0.6.4": {
-                "en": "Added GitHub workflow for automated test and coverage checks, improved parameter visualization in adapter settings, and enhanced documentation",
-                "de": "GitHub-Workflow für automatisierte Test- und Coverage-Prüfungen hinzugefügt, verbesserte Parametervisualisierung in Adaptereinstellungen und erweiterte Dokumentation"
-            },
-            "0.6.3": {
-                "en": "Fixed layout parameters for Serial Port and DuoFern Stick Code in configuration UI",
-                "de": "Layout-Parameter für serielle Schnittstelle und DuoFern-Stick-Code in der Konfigurationsoberfläche korrigiert"
-            },
-            "0.6.2": {
-                "en": "Refactored state command definitions to protocol layer and improved parameter visualization",
-                "de": "Zustandsbefehldefinitionen zur Protokollschicht refaktoriert und Parametervisualisierung verbessert"
-            },
-            "0.6.1": {
-                "en": "Fixed remotePair command to use correct stick code parameter",
-                "de": "RemotePair-Befehl korrigiert um korrekten Stick-Code-Parameter zu verwenden"
-            },
-            "0.6.0": {
-                "en": "Moved state and command definitions to protocol layer for single source of truth and improved code organization",
-                "de": "Zustands- und Befehlsdefinitionen zur Protokollschicht verschoben für Single Source of Truth und verbesserte Code-Organisation"
+                "en": "Added GitHub workflow for automated testing and coverage checks, improved parameter visualization in adapter settings, enhanced documentation, refactored state command definitions to protocol layer, and fixed remotePair command",
+                "de": "GitHub-Workflow für automatisierte Tests und Coverage-Prüfungen hinzugefügt, verbesserte Parametervisualisierung in Adaptereinstellungen, erweiterte Dokumentation, Zustandsbefehldefinitionen zur Protokollschicht refaktoriert und remotePair-Befehl korrigiert"
             },
             "0.5.5": {
-                "en": "Comprehensive testing coverage with NYC configuration, improved device registration reliability, and enhanced validation for serial port and DuoFern stick code. Refactored state command definitions to protocol layer for improved code organization and single source of truth",
-                "de": "Umfassende Testabdeckung mit NYC-Konfiguration, verbesserte Zuverlässigkeit der Geräteregistrierung und erweiterte Validierung für serielle Schnittstelle und DuoFern-Stick-Code. Zustandsbefehldefinitionen zur Protokollschicht refaktoriert für verbesserte Code-Organisation und Single Source of Truth"
+                "en": "Comprehensive testing coverage with NYC configuration, improved device registration reliability, and enhanced validation for serial port and DuoFern stick code",
+                "de": "Umfassende Testabdeckung mit NYC-Konfiguration, verbesserte Zuverlässigkeit der Geräteregistrierung und erweiterte Validierung für serielle Schnittstelle und DuoFern-Stick-Code"
             },
             "0.4.0": {
                 "en": "Device capability definitions moved to dedicated module, improved device categorization, and device-type-specific state filtering",
                 "de": "Gerätefähigkeitsdefinitionen in dediziertes Modul verschoben, verbesserte Gerätekategorisierung und gerätespezifische Statusfilterung"
             },
             "0.3.4": {
-                "en": "Fix device name preservation - names are no longer overwritten when adapter is redeployed",
-                "de": "Gerätename-Erhaltung korrigiert - Namen werden nicht mehr überschrieben wenn der Adapter neu bereitgestellt wird"
-            },
-            "0.3.2": {
-                "en": "Add status broadcast functionality to improve device state synchronization",
-                "de": "Status-Broadcast-Funktionalität hinzugefügt zur Verbesserung der Gerätestatus-Synchronisierung"
-            },
-            "0.3.1": {
-                "en": "Implement button state reset functionality with timers and improve validator regex for DuoFern Stick Code to be case insensitive",
-                "de": "Button-Status-Reset-Funktionalität mit Timern implementiert und Validator-Regex für DuoFern-Stick-Code verbessert (case insensitive)"
-            },
-            "0.3.0": {
-                "en": "Added reopen command to reinitialize connection to DuoFern stick",
-                "de": "Reopen-Befehl hinzugefügt um Verbindung zum DuoFern-Stick neu zu initialisieren"
+                "en": "Fixed device name preservation, added status broadcast functionality, implemented button state reset with timers, improved validator regex, and added reopen command",
+                "de": "Gerätename-Erhaltung korrigiert, Status-Broadcast-Funktionalität hinzugefügt, Button-Status-Reset mit Timern implementiert, Validator-Regex verbessert und Reopen-Befehl hinzugefügt"
             },
             "0.2.0": {
                 "en": "Added device name and code properties, updated documentation, and improved protocol consistency",
                 "de": "Gerätename und Code-Eigenschaften hinzugefügt, Dokumentation aktualisiert und Protokollkonsistenz verbessert"
             },
             "0.1.8": {
-                "en": "Added remote pairing support, improved command handling, refined moving state logic, and removed extra languages",
-                "de": "Remote-Pairing-Unterstützung hinzugefügt, Befehlsbehandlung verbessert, Logik für den Bewegungsstatus verfeinert und zusätzliche Sprachen entfernt"
-            },
-            "0.1.0": {
-                "en": "Fix DuoFern command structure and implement 4-byte commands",
-                "de": "DuoFern-Befehlsstruktur korrigiert und 4-Byte-Befehle implementiert"
+                "en": "Added remote pairing support, improved command handling, refined moving state logic, removed extra languages, and fixed DuoFern command structure with 4-byte commands",
+                "de": "Remote-Pairing-Unterstützung hinzugefügt, Befehlsbehandlung verbessert, Logik für Bewegungsstatus verfeinert, zusätzliche Sprachen entfernt und DuoFern-Befehlsstruktur mit 4-Byte-Befehlen korrigiert"
             },
             "0.0.17": {
-                "en": "Remote pairing support and improved version management with deployment workflow enhancements",
-                "de": "Remote-Pairing-Unterstützung und verbessertes Versionsverwaltung mit Deployment-Workflow-Verbesserungen"
-            },
-            "0.0.13": {
-                "en": "Added remote pairing support, status request functionality, and improved version management",
-                "de": "Remote-Pairing-Unterstützung, Statusanfrage-Funktionalität und verbesserte Versionsverwaltung hinzugefügt"
-            },
-            "0.0.12": {
-                "en": "Bug fixes and deployment workflow improvements",
-                "de": "Fehlerbehebungen und Verbesserungen am Deployment-Workflow"
-            },
-            "0.0.11": {
-                "en": "Improved logging and bug fixes",
-                "de": "Verbessertes Logging und Fehlerbehebungen"
-            },
-            "0.0.10": {
-                "en": "Refactored command building with improved DuoFern protocol frame wrapping, better code organization",
-                "de": "Refaktorierung des Befehlsaufbaus mit verbessertem DuoFern-Protokoll-Framegewrapping, bessere Codeorganisation"
-            },
-            "0.0.9": {
-                "en": "Added command buttons (up, down, stop, toggle), fixed position command, added comprehensive debug logging",
-                "de": "Befehls-Schaltflächen hinzugefügt (hoch, runter, stop, toggle), Positionsbefehl korrigiert, umfangreiche Debug-Protokollierung hinzugefügt"
-            },
-            "0.0.8": {
-                "en": "Disabled automatic file logging to fix permission issues",
-                "de": "Automatische Dateiprotokollierung deaktiviert um Berechtigungsprobleme zu beheben"
-            },
-            "0.0.7": {
-                "en": "Fixed adapter startup and module export for ioBroker",
-                "de": "Adapter-Start und Modul-Export für ioBroker korrigiert"
-            },
-            "0.0.6": {
-                "en": "Fixed admin UI configuration, improved initialization",
-                "de": "Admin-UI Konfiguration korrigiert, Initialisierung verbessert"
-            },
-            "0.0.2": {
-                "en": "initial release",
-                "de": "Erstveröffentlichung"
+                "en": "Initial releases with command buttons, position control, debug logging, fixed adapter startup, improved admin UI configuration, and comprehensive protocol implementation",
+                "de": "Erste Versionen mit Befehls-Schaltflächen, Positionssteuerung, Debug-Protokollierung, korrigiertem Adapter-Start, verbesserter Admin-UI-Konfiguration und umfassender Protokollimplementierung"
             }
         },
-        "title": "DuoFern",
         "titleLang": {
             "en": "DuoFern",
             "de": "DuoFern"
         },
         "desc": {
             "en": "Connect Rademacher DuoFern devices via DuoFern USB Stick",
-            "de": "Verbindet Rademacher DuoFern Geräte über den DuoFern USB Stick"
+            "de": "Rademacher DuoFern Geräte über DuoFern USB Stick verbinden"
         },
-        "author": {
-            "name": "Patrick Gläßer",
-            "email": "patrick.glaesser@hotmail.de"
+        "authors": ["glaessep <p.glaesser@hotmail.de>"],
+        "keywords": ["rademacher", "duofern"],
+        "licenseInformation": {
+            "type": "free",
+            "license": "MIT"
         },
-        "contributors": [
-            "Patrick Gläßer"
-        ],
-        "license": "MIT",
-        "keywords": [
-            "ioBroker",
-            "duofern",
-            "rademacher",
-            "smart home",
-            "home automation"
-        ],
         "platform": "Javascript/Node.js",
-        "main": "build/main.js",
-        "icon": "duofern.svg",
-        "enabled": false,
-        "extIcon": "https://raw.githubusercontent.com/glaessep/iobroker.duofern/main/admin/duofern.svg",
-        "readme": "https://github.com/glaessep/iobroker.duofern/blob/main/README.md",
-        "docs": {
-            "en": "docs/en/README.md",
-            "de": "docs/de/README.md"
-        },
+        "icon": "duofern.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/glaessep/ioBroker.duofern/main/admin/duofern.png",
+        "readme": "https://github.com/glaessep/ioBroker.duofern/blob/main/README.md",
         "loglevel": "info",
+        "tier": 3,
         "mode": "daemon",
         "type": "iot-systems",
         "compact": true,
         "connectionType": "local",
-        "dataSource": "poll",
+        "dataSource": "push",
         "adminUI": {
             "config": "json"
         },
         "dependencies": [
             {
-                "js-controller": ">=3.3.22"
+                "js-controller": ">=6.0.11"
             }
         ],
         "globalDependencies": [
             {
-                "admin": ">=5.1.13"
+                "admin": ">=7.0.23"
             }
         ]
     },

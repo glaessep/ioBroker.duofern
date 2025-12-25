@@ -7,11 +7,11 @@
  */
 
 import * as utils from '@iobroker/adapter-core';
-import { DuoFernStick } from './duofern/stick';
-import { parseStatus } from './duofern/parser';
-import { buildBroadcastStatusRequest, buildRemotePairFrames } from './duofern/protocol';
 import { getDeviceStateDefinitions, getDeviceTypeName } from './duofern/capabilities';
 import { CommandDispatcher } from './duofern/commandDispatcher';
+import { parseStatus } from './duofern/parser';
+import { buildBroadcastStatusRequest, buildRemotePairFrames } from './duofern/protocol';
+import { DuoFernStick } from './duofern/stick';
 
 /**
  * Configuration interface for the DuoFern adapter.
@@ -654,6 +654,12 @@ export class DuoFernAdapter extends utils.Adapter {
             }
 
             this.log.debug(`State change: ${id} = ${state.val}`);
+
+            // Ignore null values
+            if (state.val === null) {
+                this.log.warn(`Received null value for ${id}, ignoring`);
+                return;
+            }
 
             // Use CommandDispatcher to execute the command
             const result = CommandDispatcher.executeCommand(
