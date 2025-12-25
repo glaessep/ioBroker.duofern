@@ -174,7 +174,7 @@ Additional command line options for the release script are explained in the
 
 MIT License
 
-Copyright (c) 2024 Patrick Gläßer <p.glaesser@hotmail.de>
+Copyright (c) 2025 Patrick Gläßer <p.glaesser@hotmail.de>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
