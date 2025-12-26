@@ -62,9 +62,8 @@
     "LICENSE"
   ],
   "scripts": {
-    "prepare": "npm run build || tsc -p tsconfig.build.json",
     "prebuild": "rimraf build",
-    "build": "build-adapter ts",
+    "build": "build-adapter ts || tsc -p tsconfig.build.json",
     "watch": "build-adapter ts --watch",
     "prebuild:ts": "rimraf build",
     "build:ts": "build-adapter ts",
