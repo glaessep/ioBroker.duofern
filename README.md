@@ -134,12 +134,16 @@ All pull requests must pass these automated checks before merging.
 
 ### **WORK IN PROGRESS**
 
+- (glaessep) Uncommented deploy section in test-and-release workflow for npm releases
+- (glaessep) Updated repository URL format in package.json
+- (glaessep) Removed obsolete test workflow configuration
+- (glaessep) Updated README for logo display and correct section title casing
+- (glaessep) Fixed DuoFern title casing for all languages
 - (glaessep) Added placeholder configuration to release settings
 - (glaessep) Re-added prepare script to ensure build runs before other scripts
 - (glaessep) Updated build script to fallback to TypeScript compiler if build-adapter fails
 - (glaessep) Removed .npmignore file (files are managed in package.json)
 - (glaessep) Formatted ESLint, Mocha, and TypeScript configuration files for consistency
-- (glaessep) Added placeholder for next version in changelog
 
 ### 0.7.0 (2025-12-25)
 
