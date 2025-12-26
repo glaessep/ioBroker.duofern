@@ -161,6 +161,13 @@ Additional command line options for the release script are explained in the
 
 ### **WORK IN PROGRESS**
 
+- (glaessep) Added placeholder configuration to release settings
+- (glaessep) Re-added prepare script to ensure build runs before other scripts
+- (glaessep) Updated build script to fallback to TypeScript compiler if build-adapter fails
+- (glaessep) Removed .npmignore file (files are managed in package.json)
+- (glaessep) Formatted ESLint, Mocha, and TypeScript configuration files for consistency
+- (glaessep) Added placeholder for next version in changelog
+
 ### 0.7.0 (2025-12-25)
 
 - (glaessep) Migrated to ioBroker adapter creator v3 structure
