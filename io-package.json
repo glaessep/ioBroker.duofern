@@ -28,71 +28,6 @@
         "pl": "Migrated to jOBroker adapter creator v3 struktury\nPoprawa stabilności dzięki zastrzykowi zależności SerialPort\nZwiększona sprawozdawczość w zakresie obejmująca format json- streszczenie\nAktualizacja dokumentacji i plików tłumaczeniowych\nOdniesienia do plików stałych i zależności\nAktualizacja .gitignore, aby włączyć pliki log i commitinfo\nUsunięto zbędne słowo kluczowe z jo- package.json",
         "uk": "Migrated to ioBroker адаптер творець v3 структура\nПокращена тестованість при ін'єкції залежностей SerialPort\nРозширена звітність про покриття для включення json-summary формат\nОновлено документацію та файли перекладу\nВиправлені посилання та залежності\nОновлено .gitignore, щоб включати файли логіки та комітinfo\nВилучено червоне слово від io-package.json",
         "zh-cn": "切换到 ioBroker 适配器创建器 v3 结构\n通过连环港依赖性注射提高可测试性\n扩大覆盖面,包括json-摘要格式\n更新文件和翻译文件\n固定文件引用和依赖性\n更新了 .gitignore 以包含日志和承诺文件\n从 io- package.json 中删除冗余关键词"
-      },
-      "0.6.4": {
-        "en": "Added GitHub workflow for automated testing and coverage checks, improved parameter visualization in adapter settings, enhanced documentation, refactored state command definitions to protocol layer, and fixed remotePair command",
-        "de": "GitHub-Workflow für automatisierte Tests und Coverage-Prüfungen hinzugefügt, verbesserte Parametervisualisierung in Adaptereinstellungen, erweiterte Dokumentation, Zustandsbefehldefinitionen zur Protokollschicht refaktoriert und remotePair-Befehl korrigiert",
-        "ru": "Добавлен рабочий процесс GitHub для автоматического тестирования и проверки покрытия, улучшенная визуализация параметров в настройках адаптера, расширенная документация, переработаны определения команд состояния на уровне протокола и исправлена ​​команда RemotePair.",
-        "pt": "Adicionado fluxo de trabalho do GitHub para testes automatizados e verificações de cobertura, visualização aprimorada de parâmetros nas configurações do adaptador, documentação aprimorada, definições de comando de estado refatoradas para a camada de protocolo e comando remotePair corrigido",
-        "nl": "GitHub-workflow toegevoegd voor geautomatiseerd testen en dekkingscontroles, verbeterde parametervisualisatie in adapterinstellingen, verbeterde documentatie, refactored state command-definities naar protocollaag en vaste remotePair-opdracht",
-        "fr": "Ajout du flux de travail GitHub pour les tests automatisés et les vérifications de couverture, visualisation améliorée des paramètres dans les paramètres de l'adaptateur, documentation améliorée, définitions de commandes d'état refactorisées dans la couche de protocole et commande RemotePair corrigée.",
-        "it": "Aggiunto flusso di lavoro GitHub per test automatizzati e controlli di copertura, migliore visualizzazione dei parametri nelle impostazioni dell'adattatore, documentazione migliorata, definizioni dei comandi di stato rifattorizzate al livello del protocollo e comando remotePair corretto",
-        "es": "Se agregó flujo de trabajo de GitHub para pruebas automatizadas y verificaciones de cobertura, visualización de parámetros mejorada en la configuración del adaptador, documentación mejorada, definiciones de comandos de estado refactorizadas para la capa de protocolo y comando remotoPair fijo.",
-        "pl": "Dodano przepływ pracy w serwisie GitHub do automatycznego testowania i sprawdzania zasięgu, ulepszoną wizualizację parametrów w ustawieniach adaptera, ulepszoną dokumentację, przekształcono definicje poleceń stanu do warstwy protokołu i naprawiono polecenie RemotePair",
-        "uk": "Додано робочий процес GitHub для автоматизованого тестування та перевірки покриття, покращено візуалізацію параметрів у налаштуваннях адаптера, покращено документацію, перетворено визначення команд стану на рівень протоколу та виправлено команду remotePair",
-        "zh-cn": "添加了用于自动化测试和覆盖率检查的 GitHub 工作流程，改进了适配器设置中的参数可视化，增强了文档，将状态命令定义重构到协议层，并修复了 RemotePair 命令"
-      },
-      "0.5.5": {
-        "en": "Comprehensive testing coverage with NYC configuration, improved device registration reliability, and enhanced validation for serial port and DuoFern stick code",
-        "de": "Umfassende Testabdeckung mit NYC-Konfiguration, verbesserte Zuverlässigkeit der Geräteregistrierung und erweiterte Validierung für serielle Schnittstelle und DuoFern-Stick-Code",
-        "ru": "Комплексное тестирование с конфигурацией для Нью-Йорка, повышенная надежность регистрации устройств и расширенная проверка последовательного порта и кода DuoFern Stick.",
-        "pt": "Cobertura abrangente de testes com configuração NYC, confiabilidade aprimorada de registro de dispositivos e validação aprimorada para porta serial e código stick DuoFern",
-        "nl": "Uitgebreide testdekking met NYC-configuratie, verbeterde betrouwbaarheid van apparaatregistratie en verbeterde validatie voor seriële poort en DuoFern-stickcode",
-        "fr": "Couverture complète des tests avec la configuration NYC, fiabilité améliorée de l'enregistrement des appareils et validation améliorée du port série et du code stick DuoFern",
-        "it": "Copertura completa dei test con configurazione di New York, migliore affidabilità di registrazione del dispositivo e convalida avanzata per la porta seriale e il codice stick DuoFern",
-        "es": "Cobertura de prueba integral con configuración NYC, confiabilidad mejorada del registro del dispositivo y validación mejorada para el puerto serie y el código Stick DuoFern.",
-        "pl": "Kompleksowy zakres testów w konfiguracji NYC, poprawiona niezawodność rejestracji urządzeń i ulepszona weryfikacja portu szeregowego i kodu modułu DuoFern",
-        "uk": "Всебічне тестування з конфігурацією NYC, покращеною надійністю реєстрації пристрою та покращеною перевіркою послідовного порту та коду DuoFern.",
-        "zh-cn": "NYC 配置的全面测试覆盖范围、改进的设备注册可靠性以及增强的串行端口和 DuoFern 棒代码验证"
-      },
-      "0.4.0": {
-        "en": "Device capability definitions moved to dedicated module, improved device categorization, and device-type-specific state filtering",
-        "de": "Gerätefähigkeitsdefinitionen in dediziertes Modul verschoben, verbesserte Gerätekategorisierung und gerätespezifische Statusfilterung",
-        "ru": "Определения возможностей устройства перенесены в специальный модуль, улучшена категоризация устройств и фильтрация состояний по типам устройств.",
-        "pt": "As definições de capacidade do dispositivo foram movidas para um módulo dedicado, categorização aprimorada de dispositivos e filtragem de estado específica do tipo de dispositivo",
-        "nl": "Definities van apparaatmogelijkheden zijn verplaatst naar een speciale module, verbeterde apparaatcategorisatie en apparaattype-specifieke statusfiltering",
-        "fr": "Les définitions des capacités des appareils ont été déplacées vers un module dédié, une catégorisation améliorée des appareils et un filtrage d'état spécifique au type d'appareil.",
-        "it": "Le definizioni delle funzionalità dei dispositivi sono state spostate in un modulo dedicato, una migliore categorizzazione dei dispositivi e un filtraggio dello stato specifico per il tipo di dispositivo",
-        "es": "Las definiciones de capacidades de los dispositivos se trasladaron a un módulo dedicado, se mejoró la categorización de los dispositivos y el filtrado de estado específico del tipo de dispositivo.",
-        "pl": "Definicje możliwości urządzeń zostały przeniesione do dedykowanego modułu, ulepszona kategoryzacja urządzeń i filtrowanie stanu specyficzne dla typu urządzenia",
-        "uk": "Визначення можливостей пристрою переміщено до спеціального модуля, покращено категоризацію пристроїв і фільтрацію стану залежно від типу пристрою",
-        "zh-cn": "设备功能定义移至专用模块，改进了设备分类和设备类型特定的状态过滤"
-      },
-      "0.3.4": {
-        "en": "Fixed device name preservation, added status broadcast functionality, implemented button state reset with timers, improved validator regex, and added reopen command",
-        "de": "Gerätename-Erhaltung korrigiert, Status-Broadcast-Funktionalität hinzugefügt, Button-Status-Reset mit Timern implementiert, Validator-Regex verbessert und Reopen-Befehl hinzugefügt",
-        "ru": "Исправлено сохранение имени устройства, добавлена ​​функция трансляции статуса, реализован сброс состояния кнопок с помощью таймеров, улучшено регулярное выражение валидатора и добавлена ​​команда повторного открытия.",
-        "pt": "Preservação de nome de dispositivo corrigida, funcionalidade de transmissão de status adicionada, redefinição de estado de botão implementada com temporizadores, regex de validador aprimorado e comando de reabertura adicionado",
-        "nl": "Behoud van apparaatnaam opgelost, functionaliteit voor statusuitzending toegevoegd, reset van knopstatus met timers geïmplementeerd, verbeterde validator-regex en toegevoegd commando voor heropenen",
-        "fr": "Correction de la préservation du nom de l'appareil, ajout d'une fonctionnalité de diffusion d'état, implémentation de la réinitialisation de l'état des boutons avec minuteries, amélioration de l'expression régulière du validateur et ajout de la commande de réouverture",
-        "it": "Risolto il problema con la conservazione del nome del dispositivo, aggiunta funzionalità di trasmissione dello stato, implementazione del ripristino dello stato dei pulsanti con timer, migliore regex del validatore e aggiunto comando di riapertura",
-        "es": "Se corrigió la preservación del nombre del dispositivo, se agregó funcionalidad de transmisión de estado, se implementó el restablecimiento del estado del botón con temporizadores, se mejoró la expresión regular del validador y se agregó el comando de reapertura.",
-        "pl": "Naprawiono zachowanie nazwy urządzenia, dodano funkcję rozgłaszania statusu, zaimplementowano resetowanie stanu przycisku za pomocą liczników czasu, ulepszone wyrażenie regularne walidatora i dodano polecenie ponownego otwarcia",
-        "uk": "Виправлено збереження імені пристрою, додано функцію трансляції статусу, реалізовано скидання стану кнопки за допомогою таймерів, покращено регулярний вираз перевірки та додано команду повторного відкриття",
-        "zh-cn": "修复了设备名称保留，添加了状态广播功能，使用计时器实现了按钮状态重置，改进了验证器正则表达式，并添加了重新打开命令"
-      },
-      "0.2.0": {
-        "en": "Added device name and code properties, updated documentation, and improved protocol consistency",
-        "de": "Gerätename und Code-Eigenschaften hinzugefügt, Dokumentation aktualisiert und Protokollkonsistenz verbessert",
-        "ru": "Добавлены свойства имени и кода устройства, обновлена ​​документация и улучшена согласованность протокола.",
-        "pt": "Adicionadas propriedades de nome e código do dispositivo, documentação atualizada e consistência de protocolo aprimorada",
-        "nl": "Apparaatnaam en code-eigenschappen toegevoegd, bijgewerkte documentatie en verbeterde protocolconsistentie",
-        "fr": "Ajout du nom de l'appareil et des propriétés du code, documentation mise à jour et cohérence améliorée du protocole",
-        "it": "Aggiunti nome del dispositivo e proprietà del codice, documentazione aggiornata e migliore coerenza del protocollo",
-        "es": "Se agregaron propiedades de código y nombre de dispositivo, documentación actualizada y coherencia de protocolo mejorada.",
-        "pl": "Dodano nazwę urządzenia i właściwości kodu, zaktualizowano dokumentację i poprawiono spójność protokołu",
-        "uk": "Додано назву пристрою та властивості коду, оновлену документацію та покращено узгодженість протоколу",
-        "zh-cn": "添加了设备名称和代码属性、更新了文档并改进了协议一致性"
       }
     },
     "titleLang": {
@@ -121,13 +56,8 @@
       "uk": "Підключайте пристрої Rademacher DuoFern через USB-накопичувач DuoFern",
       "zh-cn": "通过 DuoFern USB 棒连接 Rademacher DuoFern 设备"
     },
-    "authors": [
-      "Patrick Gläßer"
-    ],
-    "keywords": [
-      "rademacher",
-      "duofern"
-    ],
+    "authors": ["Patrick Gläßer"],
+    "keywords": ["rademacher", "duofern"],
     "licenseInformation": {
       "type": "free",
       "license": "MIT"
