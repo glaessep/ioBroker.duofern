@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "duofern",
-    "version": "0.7.0",
+    "version": "0.7.1",
     "news": {
+      "0.7.1": {
+        "en": "Uncommented deploy section in test-and-release workflow for npm releases\nUpdated repository URL format in package.json\nRemoved obsolete test workflow configuration\nUpdated README for logo display and correct section title casing\nFixed DuoFern title casing for all languages\nAdded placeholder configuration to release settings\nRe-added prepare script to ensure build runs before other scripts\nUpdated build script to fallback to TypeScript compiler if build-adapter fails\nRemoved .npmignore file (files are managed in package.json)\nFormatted ESLint, Mocha, and TypeScript configuration files for consistency",
+        "de": "Uncommented Deploy Bereich im Test-und-Release-Workflow für npm-Releases\nAktualisiertes Repository URL-Format im Paket. Json\nEntfernen obsolete Test-Workflow-Konfiguration\nAktualisiertes README für Logo-Display und korrekte Titelhülle\nFixed DuoFern Titelhülle für alle Sprachen\nKonfiguration des Platzhalters zur Freigabe von Einstellungen hinzugefügt\nBereitstellen Skript neu hinzugefügt, um Build-Läufe vor anderen Skripten zu gewährleisten\nUpdateed build script to fallback to TypeScript compiler if build-adapter fails\nRemoved .npmignore Datei (Dateien werden im Package.json verwaltet)\nFormatierte ESLint-, Mocha- und TypeScript-Konfigurationsdateien für Konsistenz",
+        "ru": "Некомментированный раздел развертывания в рабочем процессе тестирования и выпуска для релизов npm\nОбновленный формат URL репозитория в пакете. Джонсон\nСнята устаревшая конфигурация испытательного рабочего процесса\nОбновленный README для отображения логотипа и правильного заголовка раздела\nФиксированный корпус DuoFern для всех языков\nДобавлена конфигурация заполнителя для настроек выпуска\nПовторно добавленный сценарий подготовки, чтобы обеспечить запуск сборки перед другими сценариями\nОбновленный скрипт сборки для резервного копирования в компилятор TypeScript, если адаптер сборки не работает\nУдаленный файл .npmignore (файлы управляются в package.json)\nФорматированные файлы конфигурации ESLint, Mocha и TypeScript для согласованности",
+        "pt": "Seção de implantação sem comentários no fluxo de trabalho de teste e lançamento para versões do npm\nFormato de URL do repositório atualizado no pacote. json\nConfiguração do fluxo de trabalho de teste obsoleto removido\nREADME atualizado para exibição de logotipo e revestimento de título da seção correta\nCarcaça de título DuoFern fixa para todas as línguas\nAdicionada configuração de placeholder para liberar configurações\nPrograma de preparação adicional para garantir que a compilação seja executada antes de outros scripts\nPrograma de compilação atualizado para voltar ao compilador TypeScript se o adaptador de compilação falhar\nArquivo .npmignore removido (arquivos são gerenciados em package.json)\nArquivos formatados de configuração ESLint, Mocha e TypeScript para consistência",
+        "nl": "Niet-gecommenteerde implementatie sectie in test-and-release workflow voor npm releases\nBijgewerkte repository URL-formaat in pakket. json\nVerouderde testworkflowconfiguratie verwijderd\nBijgewerkt README voor logo weergave en correcte sectie titel behuizing\nVaste DuoFern titel behuizing voor alle talen\nPlaatshouderconfiguratie toegevoegd om instellingen vrij te maken\nOpnieuw toegevoegd voorbereiding script om te zorgen voor build draait voor andere scripts\nBijgewerkt bouwscript om terug te vallen naar TypeScript compiler als build-adapter mislukt\nVerwijderd .npmignore bestand (bestanden worden beheerd in package.json)\nGeformatteerde ESLint, Mocha, en TypeScript configuratiebestanden voor consistentie",
+        "fr": "Section de déploiement non commentée dans le workflow de test-and-release pour les versions npm\nFormat URL du dépôt mis à jour dans le paquet. Json\nSupprimé la configuration du flux de travail de test obsolète\nMise à jour du README pour afficher le logo et corriger le titre de la section\nClapet de titre DuoFern fixe pour toutes les langues\nAjout d'une configuration de placeholder pour libérer les paramètres\nRe-ajouté préparer le script pour s'assurer que build fonctionne avant d'autres scripts\nMise à jour du script build pour revenir au compilateur TypeScript si build-adaptateur échoue\nSupprimé le fichier .npmignore (les fichiers sont gérés dans package.json)\nFichiers de configuration ESLint, Mocha et TypeScript formatés pour une cohérence",
+        "it": "Sezione dispiegamento non combinata nel flusso di lavoro di prova e rilascio per npm\nFormato URL del repository aggiornato nel pacchetto. J\nConfigurazione del flusso di lavoro obsoleto del test\nREADME aggiornato per la visualizzazione del logo e l'involucro corretto del titolo della sezione\nInvolucro del titolo fisso DuoFern per tutte le lingue\nAggiunta configurazione del segnaposto per rilasciare le impostazioni\nRe-integrato preparare lo script per garantire eseguire la costruzione prima di altri script\nAggiornato lo script di build per fallback al compilatore di TypeScript se build-adapter non riesce\nRimuoveto file .npmignore (i file sono gestiti in package.json)\nFormattati file di configurazione ESLint, Mocha e TypeScript per coerenza",
+        "es": "Sección de despliegue sin compromiso en el flujo de trabajo de prueba y liberación para versiones npm\nFormato URL de repositorio actualizado en paquete. json\nConfiguración de flujo de trabajo obsoleto\nActualizado README para la visualización del logotipo y el título de sección correcto\nCarcasa de título de DuoFern fija para todos los idiomas\nConfiguración de marcador de lugar añadido para la configuración de lanzamiento\nRe-added preparar script para asegurar la construcción de carreras antes de otros scripts\nActualizado script de construcción para retroceso al compilador TipoScript si el editor falla\nEliminado archivo .npmignore (los archivos se gestionan en package.json)\nArchivos de configuración ESLint, Mocha y TypeScript para consistencia",
+        "pl": "Nieskomentowana sekcja rozmieszczania w strumieniu pracy testowej i wydawnictwa npm\nAktualizacja formatu URL repozytorium w pakiecie. json\nUsunięto przestarzałą konfigurację przepływu testowego\nAktualizacja README do wyświetlania logo i poprawnej obudowy tytułu sekcji\nNaprawiono obudowę tytułu DuoFern dla wszystkich języków\nDodano konfigurację Posiadacza miejsca do wydania ustawień\nPonownie dodany skrypt, aby zapewnić tworzenie przed innymi skryptami\nAktualizacja skryptu build to fallback to TypeScript compiler if build- adapter failed\nUsunięto plik .npmignore (pliki są zarządzane w package.json)\nFormowane pliki konfiguracyjne ESLint, Mocha i TypeScript dla spójności",
+        "uk": "Незрівняні розділи розгортання в тестово-випускному процесі для npm релізів\nОновлено формат URL-адреси репозиторій в пакеті. свінгери\nВидалення застарілої конфігурації тестової роботи\nОновлено README для відображення логотипу та коректного кешування назви розділу\nВиправлено DuoFern заголовок для всіх мов\nДодано налаштування поточного рахунку для налаштування релізу\nПідготовлений скрипт, щоб забезпечити роботу до інших сценаріїв\nОновлено скрипт побудови випадаючого компілятора TypeScript, якщо конструктор не виходить\nВилучено файл .npmignore (файли зберігаються в package.json)\nФорматовані файли конфігурації ESLint, Mocha та TypeScript для консистенції",
+        "zh-cn": "测试和释放工作流程中无评论的部署部分,npm发布\n软件包中更新的仓库 URL 格式 。 贾森\n删除过时的测试工作流程配置\n更新用于标识显示和正确区域标题外壳的 README\n所有语言的固定 DuoFern 标题外壳\n添加占位符配置以释放设置\n重新添加准备脚本以确保构建运行于其他脚本之前\n如果构建适应器失败, 更新构建脚本以返回到 TypeScript 编译器\n删除 .npmignore 文件( 文件以 package.json 管理)\n格式化了 ESLint、 Mocha 和 TypeScript 配置文件,以便保持一致性"
+      },
       "0.7.0": {
         "en": "Migrated to ioBroker adapter creator v3 structure\nImproved testability with SerialPort dependency injection\nEnhanced coverage reporting to include json-summary format\nUpdated documentation and translation files\nFixed file references and dependencies\nUpdated .gitignore to include log and commitinfo files\nRemoved redundant keyword from io-package.json",
         "de": "Migrated to ioBroker Adapter Creator v3 Struktur\nVerbesserte Testbarkeit mit SerialPort Abhängigkeit Injektion\nVerbesserte Berichterstattung über die Berichterstattung über das json-summary-Format\nAktualisierte Dokumentations- und Übersetzungsdateien\nBehobene Dateireferenzen und Abhängigkeiten\nAktualisierte .gitignore, um Log- und Commitinfo-Dateien aufzunehmen\nEntfernt redundantes Keyword von io-package.json",
@@ -80,19 +93,6 @@
         "pl": "Dodano nazwę urządzenia i właściwości kodu, zaktualizowano dokumentację i poprawiono spójność protokołu",
         "uk": "Додано назву пристрою та властивості коду, оновлену документацію та покращено узгодженість протоколу",
         "zh-cn": "添加了设备名称和代码属性、更新了文档并改进了协议一致性"
-      },
-      "0.1.8": {
-        "en": "Added remote pairing support, improved command handling, refined moving state logic, removed extra languages, and fixed DuoFern command structure with 4-byte commands",
-        "de": "Remote-Pairing-Unterstützung hinzugefügt, Befehlsbehandlung verbessert, Logik für Bewegungsstatus verfeinert, zusätzliche Sprachen entfernt und DuoFern-Befehlsstruktur mit 4-Byte-Befehlen korrigiert",
-        "ru": "Добавлена ​​поддержка удаленного сопряжения, улучшена обработка команд, усовершенствована логика перемещения состояний, удалены дополнительные языки и исправлена ​​структура команд DuoFern с 4-байтовыми командами.",
-        "pt": "Adicionado suporte de emparelhamento remoto, manipulação de comandos aprimorada, lógica de estado móvel refinada, idiomas extras removidos e estrutura de comando DuoFern fixa com comandos de 4 bytes",
-        "nl": "Ondersteuning voor koppeling op afstand toegevoegd, verbeterde opdrachtafhandeling, verfijnde logica voor bewegende toestanden, extra talen verwijderd en vaste DuoFern-opdrachtstructuur met opdrachten van 4 bytes",
-        "fr": "Ajout de la prise en charge du couplage à distance, gestion améliorée des commandes, logique d'état mobile raffinée, suppression de langues supplémentaires et structure de commande DuoFern corrigée avec des commandes de 4 octets",
-        "it": "Aggiunto supporto per l'accoppiamento remoto, migliore gestione dei comandi, logica dello stato mobile perfezionata, lingue aggiuntive rimosse e struttura dei comandi DuoFern fissa con comandi a 4 byte",
-        "es": "Se agregó soporte de emparejamiento remoto, manejo de comandos mejorado, lógica de estado de movimiento refinada, idiomas adicionales eliminados y estructura de comandos DuoFern fija con comandos de 4 bytes.",
-        "pl": "Dodano obsługę zdalnego parowania, ulepszoną obsługę poleceń, udoskonaloną logikę stanu ruchu, usunięto dodatkowe języki i poprawioną strukturę poleceń DuoFern z poleceniami 4-bajtowymi",
-        "uk": "Додано підтримку дистанційного з’єднання, покращено обробку команд, вдосконалено логіку стану переміщення, видалено додаткові мови та виправлено структуру команд DuoFern із 4-байтовими командами",
-        "zh-cn": "添加了远程配对支持，改进了命令处理，完善了移动状态逻辑，删除了额外的语言，并使用 4 字节命令修复了 DuoFern 命令结构"
       }
     },
     "titleLang": {
@@ -121,8 +121,13 @@
       "uk": "Підключайте пристрої Rademacher DuoFern через USB-накопичувач DuoFern",
       "zh-cn": "通过 DuoFern USB 棒连接 Rademacher DuoFern 设备"
     },
-    "authors": ["Patrick Gläßer"],
-    "keywords": ["rademacher", "duofern"],
+    "authors": [
+      "Patrick Gläßer"
+    ],
+    "keywords": [
+      "rademacher",
+      "duofern"
+    ],
     "licenseInformation": {
       "type": "free",
       "license": "MIT"

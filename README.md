@@ -131,8 +131,7 @@ All pull requests must pass these automated checks before merging.
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 0.7.1 (2025-12-26)
 
 - (glaessep) Uncommented deploy section in test-and-release workflow for npm releases
 - (glaessep) Updated repository URL format in package.json

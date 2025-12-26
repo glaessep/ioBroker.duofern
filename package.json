@@ -1,6 +1,6 @@
 {
   "name": "iobroker.duofern",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Connect Rademacher DuoFern devices via DuoFern USB Stick",
   "author": {
     "name": "Patrick Gläßer",
