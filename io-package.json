@@ -98,15 +98,15 @@
     "titleLang": {
       "en": "DuoFern",
       "de": "DuoFern",
-      "ru": "ДуоПапоротник",
+      "ru": "DuoFern",
       "pt": "DuoFern",
       "nl": "DuoFern",
       "fr": "DuoFern",
       "it": "DuoFern",
-      "es": "dúohelecho",
+      "es": "DuoFern",
       "pl": "DuoFern",
-      "uk": "ДуоПапороть",
-      "zh-cn": "多芬"
+      "uk": "DuoFern",
+      "zh-cn": "DuoFern"
     },
     "desc": {
       "en": "Connect Rademacher DuoFern devices via DuoFern USB Stick",
