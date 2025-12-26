@@ -1,4 +1,4 @@
-![Logo](admin/duofern.svg)
+<img src="admin/duofern.svg" alt="Logo" width="100"/>
 
 # ioBroker.duofern
 
@@ -11,9 +11,9 @@
 
 **Tests:** ![Test and Release](https://github.com/glaessep/ioBroker.duofern/workflows/Test%20and%20Release/badge.svg)
 
-## duofern adapter for ioBroker
+## DuoFern Adapter for ioBroker
 
-Connect Rademacher DuoFern devices via DuoFern USB Stick
+Connect Rademacher DuoFern devices via DuoFern USB Stick.
 
 ## Installation
 
