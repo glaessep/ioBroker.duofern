@@ -65,6 +65,7 @@
     "platform": "Javascript/Node.js",
     "icon": "duofern.svg",
     "enabled": true,
+    "nogit": true,
     "extIcon": "https://raw.githubusercontent.com/glaessep/ioBroker.duofern/main/admin/duofern.svg",
     "readme": "https://github.com/glaessep/ioBroker.duofern/blob/main/README.md",
     "loglevel": "info",
