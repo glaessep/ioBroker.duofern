@@ -131,7 +131,11 @@ All pull requests must pass these automated checks before merging.
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+
 ### **WORK IN PROGRESS**
+
+- (glaessep) Added missing "nogit" property to io-package.json to comply with repo checker
+- (glaessep) Removed outdated version entries from io-package.json
 
 ### 0.7.1 (2025-12-26)
 
